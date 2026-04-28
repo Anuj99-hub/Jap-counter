@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#1a0400">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Radhe Jap">
+<link rel="manifest" id="mfst">
+<title>🌸 Radha Jap</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ══ ROOT ══ */
+:root{
+  --g:#D4A017;--g2:#FFD700;--sf:#FF6B00;--sf2:#FF8C42;--cr:#FFF3D0;
+  --card:rgba(28,5,0,.9);--bdr:rgba(212,160,23,.2);
+  --bg1:#5A1200;--bg2:#2A0600;--bg3:#0A0200;
+  --h0:#180600;--h1:#4d1400;--h2:#883300;--h3:#bb5500;--h4:#FF8800;
+  --nav-h:62px;
+}
+body.vr{--bg1:#0A3D1F;--bg2:#062B10;--bg3:#010E05;}
+body.lt{--bg1:#4A0E2A;--bg2:#2A0618;--bg3:#0D0208;}
+body.sk{--bg1:#0A1A4A;--bg2:#060C2A;--bg3:#020408;}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation;}
+html,body{height:100%;overscroll-behavior:none;-webkit-overflow-scrolling:touch;}
+body{
+  min-height:100dvh;
+  background:radial-gradient(ellipse at 50% 0%,var(--bg1),var(--bg2) 50%,var(--bg3) 100%);
+  font-family:'Noto Sans Devanagari',system-ui,sans-serif;
+  color:var(--cr);overflow-x:hidden;font-size:15px;
+  -webkit-text-size-adjust:100%;
+}
+
+/* ══ PARTICLES ══ */
+#ptc{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.pt{position:absolute;border-radius:50%;animation:fup linear infinite;opacity:0;}
+@keyframes fup{0%{opacity:0;transform:translateY(100vh)scale(0)}20%{opacity:.7}80%{opacity:.3}100%{opacity:0;transform:translateY(-5vh)scale(2)}}
+
+/* ══ SCREEN SYSTEM ══ */
+.screen{display:none;position:fixed;inset:0;z-index:2000;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.screen.active{display:flex;flex-direction:column;}
+
+/* ══ LOGIN SCREEN ══ */
+#s-login{background:radial-gradient(ellipse at center,#3D0C02,#050000);align-items:center;justify-content:center;padding:24px;}
+.login-lotus{font-size:64px;text-align:center;filter:drop-shadow(0 0 24px rgba(255,180,0,.8));animation:lp 3s ease-in-out infinite;margin-bottom:8px;}
+@keyframes lp{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.login-title{font-family:'Cinzel Decorative',cursive;font-size:22px;background:linear-gradient(135deg,#FFD700,#FF8C00,#FFD700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center;margin-bottom:4px;}
+.login-sub{font-size:12px;color:var(--sf2);text-align:center;opacity:.8;margin-bottom:24px;}
+.login-box{background:rgba(30,6,0,.95);border:1px solid var(--bdr);border-radius:20px;padding:22px;width:100%;max-width:340px;}
+.lbl{font-size:11px;color:rgba(255,200,120,.55);letter-spacing:1px;margin-bottom:5px;}
+.finp{width:100%;background:rgba(0,0,0,.5);border:1px solid var(--bdr);border-radius:10px;color:var(--cr);font-family:inherit;font-size:15px;padding:12px 14px;outline:none;margin-bottom:12px;}
+.finp:focus{border-color:var(--g);}
+.finp::placeholder{color:rgba(255,200,120,.25);}
+.phone-row{display:flex;gap:8px;margin-bottom:12px;}
+.cc{background:rgba(0,0,0,.5);border:1px solid var(--bdr);border-radius:10px;color:var(--cr);font-size:15px;padding:12px 10px;width:72px;outline:none;text-align:center;}
+.cc:focus{border-color:var(--g);}
+.login-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--sf),var(--g));border:none;border-radius:12px;color:#fff;font-family:'Cinzel Decorative',cursive;font-size:14px;cursor:pointer;letter-spacing:1px;margin-top:4px;}
+.login-btn:active{transform:scale(.97);}
+.login-skip{width:100%;padding:11px;background:transparent;border:1px solid var(--bdr);border-radius:12px;color:rgba(255,200,120,.5);font-family:inherit;font-size:13px;cursor:pointer;margin-top:8px;}
+.login-switch{text-align:center;margin-top:12px;font-size:12px;color:rgba(255,200,120,.45);}
+.login-switch a{color:var(--g);cursor:pointer;text-decoration:none;}
+.login-err{font-size:11px;color:#FF7070;text-align:center;margin-top:6px;min-height:16px;}
+
+/* ══ SPLASH ══ */
+#s-splash{background:radial-gradient(ellipse at center,#3D0C02,#050000);align-items:center;justify-content:center;padding:28px;text-align:center;gap:14px;}
+.sp-lotus{font-size:66px;filter:drop-shadow(0 0 24px rgba(255,180,0,.8));animation:lp 3s ease-in-out infinite;}
+.sp-shl{font-size:16px;color:var(--g2);line-height:2.1;max-width:300px;}
+.sp-mn{font-size:12px;color:var(--sf2);line-height:1.7;max-width:290px;opacity:.85;}
+.sp-dt{font-size:9px;color:rgba(255,200,120,.4);letter-spacing:2px;}
+.sp-btn{padding:13px 32px;background:linear-gradient(135deg,var(--sf),var(--g));border:none;border-radius:26px;color:#fff;font-family:'Cinzel Decorative',cursive;font-size:13px;cursor:pointer;width:100%;max-width:260px;letter-spacing:1px;}
+.sp-btn:active{transform:scale(.97);}
+
+/* ══ APP ══ */
+#app{display:none;position:relative;z-index:1;width:100%;max-width:430px;margin:0 auto;min-height:100dvh;flex-direction:column;}
+#app.visible{display:flex;}
+
+/* ══ HEADER ══ */
+.hdr{text-align:center;padding:calc(env(safe-area-inset-top,10px) + 10px) 16px 8px;flex-shrink:0;}
+.hdr-d{font-size:9px;letter-spacing:6px;color:var(--g);opacity:.5;}
+.hdr h1{font-family:'Cinzel Decorative',cursive;font-size:24px;background:linear-gradient(135deg,#FFD700,#FF8C00,#FFD700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 10px rgba(255,180,0,.4));line-height:1.2;}
+.hdr-sub{font-size:11px;color:var(--sf2);opacity:.7;margin-top:1px;}
+.lv-badge{display:inline-flex;align-items:center;gap:3px;margin-top:5px;padding:3px 11px;border-radius:10px;font-size:10px;border:1px solid var(--g);background:rgba(212,160,23,.1);color:var(--g2);}
+.hdr-line{display:flex;align-items:center;gap:8px;margin:7px 16px 0;}
+.hdr-line::before,.hdr-line::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--g),transparent);}
+
+/* ══ STREAK BANNER ══ */
+.sbanner{margin:7px 12px 0;padding:9px 13px;border-radius:13px;display:flex;align-items:center;gap:9px;border:1.5px solid rgba(255,107,0,.4);background:linear-gradient(135deg,rgba(255,107,0,.16),rgba(212,160,23,.07));}
+.sbanner.dead{border-color:rgba(100,15,15,.4);background:rgba(30,3,3,.5);}
+.sfl{font-size:26px;animation:flkr 2s ease-in-out infinite;}
+.sfl.g{filter:grayscale(1);opacity:.3;animation:none;}
+@keyframes flkr{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.1) rotate(1.5deg)}}
+.sinfo{flex:1;min-width:0;}
+.snum{font-family:'Cinzel Decorative',cursive;font-size:20px;color:var(--sf);line-height:1;}
+.snum.g{color:#444;}
+.ssub{font-size:10px;opacity:.6;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.swarn{font-size:10px;color:#FF4444;animation:plss 1.4s infinite;margin-top:2px;}
+@keyframes plss{0%,100%{opacity:1}50%{opacity:.2}}
+.notif-btn{padding:5px 10px;border-radius:9px;border:1px solid var(--bdr);background:rgba(25,4,0,.8);color:var(--g);font-size:9px;cursor:pointer;white-space:nowrap;flex-shrink:0;font-family:inherit;}
+
+/* ══ PANELS ══ */
+.panels{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(env(safe-area-inset-bottom,0px) + var(--nav-h) + 4px);}
+.pnl{display:none;padding:12px;}
+.pnl.on{display:block;animation:pIn .18s ease;}
+@keyframes pIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* ══ BOTTOM NAV (5 tabs) ══ */
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:600;max-width:430px;margin:0 auto;background:rgba(8,1,0,.97);border-top:1px solid var(--bdr);display:flex;padding-bottom:env(safe-area-inset-bottom,0px);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);left:50%;transform:translateX(-50%);width:100%;}
+.bni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 2px 5px;border:none;background:none;color:rgba(255,205,120,.35);cursor:pointer;gap:2px;font-size:9px;letter-spacing:.2px;font-family:inherit;transition:color .2s;}
+.bni.on{color:var(--g2);}
+.bni i{font-size:21px;display:block;line-height:1;font-style:normal;}
+.bni .dot{width:3px;height:3px;border-radius:50%;background:var(--sf);margin:1px auto 0;opacity:0;transition:opacity .2s;}
+.bni.on .dot{opacity:1;}
+
+/* ══ CARDS ══ */
+.card{background:var(--card);border:1px solid var(--bdr);border-radius:16px;padding:14px;margin-bottom:11px;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:18%;right:18%;height:1px;background:linear-gradient(90deg,transparent,var(--g),transparent);}
+.ct{font-family:'Cinzel Decorative',cursive;font-size:11px;color:var(--g);letter-spacing:1.5px;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+
+/* ══ JAP ══ */
+.mantra-box{text-align:center;padding:9px 14px;background:linear-gradient(135deg,rgba(45,8,0,.9),rgba(12,2,0,.95));border:1px solid rgba(212,160,23,.25);border-radius:12px;margin-bottom:10px;}
+.mt{font-size:16px;color:var(--g2);letter-spacing:2px;}
+.ml{font-size:9px;color:var(--sf2);letter-spacing:3px;margin-top:1px;opacity:.55;}
+.cps{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-bottom:10px;}
+.cp{padding:5px 12px;border-radius:13px;border:1px solid var(--bdr);background:rgba(25,4,0,.65);color:rgba(255,205,120,.5);font-size:11px;cursor:pointer;transition:all .18s;font-family:inherit;}
+.cp.on{background:linear-gradient(135deg,rgba(255,107,0,.25),rgba(212,160,23,.15));border-color:var(--g);color:var(--g2);}
+.pb-wrap{margin-bottom:10px;}
+.pb-row{display:flex;justify-content:space-between;font-size:10px;color:rgba(255,200,120,.55);margin-bottom:4px;}
+.pb-v{font-family:'Cinzel Decorative',cursive;font-size:10px;color:var(--g);}
+.pb{background:rgba(0,0,0,.5);border-radius:20px;height:6px;overflow:hidden;}
+.pb-f{height:100%;background:linear-gradient(90deg,var(--sf),var(--g));border-radius:20px;transition:width .35s ease;box-shadow:0 0 4px rgba(255,180,0,.3);}
+.mala-wrap{display:flex;justify-content:center;margin:0 auto 11px;width:min(210px,58vw);height:min(210px,58vw);}
+.jbw{display:flex;flex-direction:column;align-items:center;gap:9px;}
+.jbtn{width:min(130px,36vw);height:min(130px,36vw);border-radius:50%;border:none;background:radial-gradient(circle at 35% 35%,#FF9500,#CC5500,#7A2500);box-shadow:0 0 0 3px rgba(212,160,23,.4),0 0 0 7px rgba(212,160,23,.09),0 8px 26px rgba(255,107,0,.5),inset 0 2px 5px rgba(255,200,100,.2),inset 0 -4px 10px rgba(0,0,0,.45);cursor:pointer;transition:transform .08s,box-shadow .08s;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.jbtn:active{transform:scale(.91);box-shadow:0 0 0 4px rgba(212,160,23,.65),0 0 0 10px rgba(212,160,23,.14),0 2px 14px rgba(255,107,0,.9),inset 0 4px 14px rgba(0,0,0,.6);}
+.jnum{font-family:'Cinzel Decorative',cursive;font-size:28px;color:#FFE066;line-height:1;filter:drop-shadow(0 0 5px rgba(255,200,0,.8));}
+.jlbl{font-size:9px;color:rgba(255,230,150,.55);letter-spacing:2px;margin-top:1px;}
+.chips2{display:flex;gap:7px;justify-content:center;}
+.ic{background:rgba(25,4,0,.8);border:1px solid var(--bdr);border-radius:14px;padding:5px 10px;text-align:center;min-width:66px;}
+.icv{font-family:'Cinzel Decorative',cursive;font-size:14px;color:var(--g);}
+.icl{font-size:8px;color:rgba(255,200,120,.45);letter-spacing:1px;text-transform:uppercase;}
+.rbtns{display:flex;gap:8px;margin-top:8px;justify-content:center;}
+.btn{padding:9px 17px;border-radius:18px;border:1px solid var(--bdr);background:rgba(25,4,0,.7);color:var(--cr);font-size:12px;cursor:pointer;transition:all .18s;font-family:inherit;}
+.btn:active{transform:scale(.95);}
+.btn.red{border-color:rgba(180,35,35,.3);}
+.btn.red:active{background:rgba(180,35,35,.18);color:#FF8080;border-color:#FF8080;}
+.btn.pri{background:linear-gradient(135deg,var(--sf),var(--g));border-color:var(--g);color:#fff;}
+.btn.pri:active{opacity:.88;}
+.btn.full{width:100%;justify-content:center;text-align:center;}
+
+/* ══ HEATMAP ══ */
+.hmap-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:3px;}
+.hmap-scroll::-webkit-scrollbar{height:3px;}
+.hmap-scroll::-webkit-scrollbar-thumb{background:rgba(212,160,23,.2);border-radius:3px;}
+.hmap-wrap{display:flex;gap:3px;width:max-content;padding:2px 2px 4px;}
+.hmap-col{display:flex;flex-direction:column;gap:3px;}
+.hmap-dlbl{font-size:8px;color:rgba(255,200,120,.3);height:11px;display:flex;align-items:center;width:14px;}
+.hmap-week{display:flex;flex-direction:column;gap:3px;}
+.hmap-mlbl{height:12px;font-size:8px;color:rgba(255,200,120,.35);display:flex;align-items:center;}
+.hcell{width:11px;height:11px;border-radius:2px;background:var(--h0);flex-shrink:0;position:relative;}
+.hcell.l1{background:var(--h1);}
+.hcell.l2{background:var(--h2);}
+.hcell.l3{background:var(--h3);}
+.hcell.l4{background:var(--h4);box-shadow:0 0 3px rgba(255,140,0,.4);}
+.hcell.tod{outline:1.5px solid var(--g2);outline-offset:1px;}
+.hmap-legend{display:flex;align-items:center;gap:3px;font-size:9px;color:rgba(255,200,120,.35);margin-top:7px;justify-content:flex-end;}
+.hmap-lsq{width:9px;height:9px;border-radius:1px;}
+.hmap-stats{display:flex;gap:10px;margin-top:8px;flex-wrap:wrap;}
+.hmap-stat{font-size:10px;color:rgba(255,200,120,.45);}
+.hmap-stat b{color:var(--g);font-family:'Cinzel Decorative',cursive;font-size:10px;font-weight:normal;}
+
+/* ══ CALENDAR ══ */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:8px;}
+.cal-hd{text-align:center;font-size:9px;color:rgba(212,160,23,.45);padding:2px 0;letter-spacing:.3px;}
+.cal-d{aspect-ratio:1;border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;border:1px solid transparent;background:rgba(0,0,0,.16);color:rgba(255,210,130,.3);position:relative;}
+.cal-d.has{background:rgba(212,160,23,.08);border-color:rgba(212,160,23,.18);color:var(--g);}
+.cal-d.fest{background:rgba(255,107,0,.1);border-color:rgba(255,107,0,.28);color:var(--sf2);}
+.cal-d.ekad{background:rgba(100,0,180,.1);border-color:rgba(120,60,200,.25);color:#CC99FF;}
+.cal-d.today{border-color:var(--g2) !important;color:var(--g2) !important;box-shadow:0 0 5px rgba(255,200,0,.28);}
+.cal-d.goal-done{background:rgba(255,107,0,.18);border-color:rgba(255,140,0,.4);}
+.cdot{width:3px;height:3px;border-radius:50%;margin-top:1px;}
+
+/* ══ FEST LIST ══ */
+.stabs{display:flex;gap:5px;margin-bottom:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
+.stabs::-webkit-scrollbar{display:none;}
+.stab{padding:5px 12px;border-radius:12px;border:1px solid var(--bdr);background:rgba(25,4,0,.55);color:rgba(255,205,120,.45);font-size:11px;cursor:pointer;white-space:nowrap;font-family:inherit;transition:all .18s;flex-shrink:0;}
+.stab.on{background:rgba(212,160,23,.14);border-color:var(--g);color:var(--g2);}
+.fi{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid rgba(212,160,23,.07);}
+.fi:last-child{border-bottom:none;}
+.fi-db{text-align:center;min-width:36px;background:rgba(212,160,23,.07);border-radius:7px;padding:3px 4px;flex-shrink:0;}
+.fi-day{font-family:'Cinzel Decorative',cursive;font-size:14px;color:var(--g);line-height:1;}
+.fi-mon{font-size:8px;color:var(--sf2);letter-spacing:.6px;}
+.fi-info{flex:1;min-width:0;}
+.fi-n{font-size:12px;color:var(--cr);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fi-s{font-size:10px;color:rgba(255,200,120,.4);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fi-hn{font-size:10px;color:rgba(255,200,120,.55);margin-top:1px;}
+.fi-icon{font-size:17px;flex-shrink:0;}
+.tag{font-size:9px;padding:2px 6px;border-radius:7px;white-space:nowrap;flex-shrink:0;}
+.tag-now{background:rgba(255,107,0,.2);color:var(--sf2);border:1px solid rgba(255,107,0,.3);}
+.tag-soon{background:rgba(212,160,23,.1);color:var(--g);border:1px solid rgba(212,160,23,.2);}
+.tag-ek{background:rgba(100,0,180,.12);color:#CC99FF;border:1px solid rgba(100,0,180,.2);}
+.tag-past{font-size:9px;color:rgba(255,200,120,.2);}
+
+/* ══ SADHANA/SANKALP ══ */
+.big-num{font-family:'Cinzel Decorative',cursive;font-size:46px;color:var(--sf);text-align:center;filter:drop-shadow(0 0 13px rgba(255,107,0,.5));line-height:1;}
+.ms-row{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-top:9px;}
+.ms{padding:4px 8px;border-radius:8px;font-size:9px;text-align:center;border:1px solid rgba(212,160,23,.1);background:rgba(0,0,0,.2);color:rgba(255,200,120,.28);transition:all .3s;}
+.ms.ok{background:linear-gradient(135deg,rgba(255,107,0,.15),rgba(212,160,23,.09));border-color:var(--g);color:var(--g);}
+.ms i{display:block;font-size:14px;margin-bottom:1px;font-style:normal;}
+.sk-form{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px;}
+.s-inp{background:rgba(0,0,0,.45);border:1px solid var(--bdr);border-radius:9px;color:var(--cr);font-family:inherit;font-size:14px;padding:9px 11px;outline:none;width:100%;}
+.s-inp:focus{border-color:var(--g);}
+.s-inp::placeholder{color:rgba(255,200,120,.25);font-size:12px;}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.sbox{background:rgba(0,0,0,.3);border:1px solid var(--bdr);border-radius:10px;padding:11px;text-align:center;}
+.sbv{font-family:'Cinzel Decorative',cursive;font-size:15px;color:var(--g);}
+.sbl{font-size:8px;color:rgba(255,200,120,.4);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+input,textarea{background:rgba(0,0,0,.45);border:1px solid var(--bdr);border-radius:9px;color:var(--cr);font-family:inherit;font-size:14px;padding:9px 11px;outline:none;width:100%;}
+input:focus,textarea:focus{border-color:var(--g);}
+input::placeholder,textarea::placeholder{color:rgba(255,200,120,.25);font-size:12px;}
+textarea{resize:none;}
+
+/* ══ TIMER ══ */
+.timer-ring{width:min(140px,40vw);height:min(140px,40vw);margin:0 auto 12px;position:relative;}
+.timer-ring svg{width:100%;height:100%;transform:rotate(-90deg);}
+.t-bg{fill:none;stroke:rgba(212,160,23,.08);stroke-width:8;}
+.t-pr{fill:none;stroke:url(#tg);stroke-width:8;stroke-linecap:round;stroke-dasharray:408;stroke-dashoffset:408;transition:stroke-dashoffset 1s linear;}
+.t-time{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Cinzel Decorative',cursive;font-size:22px;color:var(--g);filter:drop-shadow(0 0 7px rgba(255,200,0,.55));}
+.pre-row{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;margin-bottom:11px;}
+.pre{padding:5px 12px;border-radius:12px;border:1px solid var(--bdr);background:rgba(25,4,0,.5);color:rgba(255,205,120,.55);font-size:11px;cursor:pointer;transition:all .18s;font-family:inherit;}
+.pre.on,.pre:active{background:rgba(212,160,23,.14);border-color:var(--g);color:var(--g);}
+.tbtns{display:flex;gap:9px;justify-content:center;}
+.tbtn{width:48px;height:48px;border-radius:50%;border:1px solid var(--bdr);background:rgba(25,4,0,.8);color:var(--g);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit;}
+.tbtn.play{width:58px;height:58px;background:radial-gradient(circle,#FF8000,#CC4400);border-color:var(--g);font-size:21px;box-shadow:0 0 16px rgba(255,120,0,.4);}
+
+/* ══ MORE / SETTINGS ══ */
+.more-menu{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:11px;}
+.more-item{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:14px 10px;text-align:center;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:5px;}
+.more-item:active{background:rgba(212,160,23,.08);border-color:var(--g);}
+.more-item i{font-size:26px;font-style:normal;}
+.more-item span{font-size:11px;color:rgba(255,205,120,.65);letter-spacing:.5px;}
+.tog-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(212,160,23,.07);}
+.tog-row:last-child{border-bottom:none;}
+.tr-n{font-size:13px;color:var(--cr);}
+.tr-s{font-size:10px;color:rgba(255,200,120,.38);margin-top:1px;}
+.tog{width:41px;height:22px;background:rgba(0,0,0,.55);border-radius:11px;position:relative;cursor:pointer;border:1px solid var(--bdr);transition:background .25s;flex-shrink:0;}
+.tog.on{background:linear-gradient(135deg,var(--sf),var(--g));border-color:var(--g);}
+.tok{width:16px;height:16px;background:#fff;border-radius:50%;position:absolute;top:2px;left:2px;transition:left .22s;box-shadow:0 1px 3px rgba(0,0,0,.4);}
+.tog.on .tok{left:21px;}
+
+/* ══ PROFILE ══ */
+.prof-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--sf),var(--g));display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',cursive;font-size:28px;color:#fff;margin:0 auto 10px;box-shadow:0 0 20px rgba(255,107,0,.4);flex-shrink:0;}
+.prof-name{font-family:'Cinzel Decorative',cursive;font-size:18px;color:var(--g2);text-align:center;}
+.prof-phone{font-size:12px;color:rgba(255,200,120,.5);text-align:center;margin-top:3px;}
+.prof-since{font-size:10px;color:rgba(255,200,120,.35);text-align:center;margin-top:2px;letter-spacing:1px;}
+.cloud-box{background:linear-gradient(135deg,rgba(0,30,70,.3),rgba(0,12,35,.45));border:1px solid rgba(100,180,255,.15);border-radius:12px;padding:13px;margin-top:10px;}
+.cloud-title{font-size:12px;color:rgba(100,180,255,.7);font-family:'Cinzel Decorative',cursive;letter-spacing:1px;margin-bottom:5px;}
+.cloud-sub{font-size:11px;color:rgba(255,200,120,.4);line-height:1.6;margin-bottom:10px;}
+.sync-btn{width:100%;padding:12px;background:linear-gradient(135deg,var(--sf),var(--g));border:none;border-radius:10px;color:#fff;font-family:inherit;font-size:14px;cursor:pointer;letter-spacing:.5px;}
+.sync-btn:active{opacity:.85;}
+
+/* ══ AARTI ══ */
+.atext h3{font-family:'Cinzel Decorative',cursive;font-size:13px;color:var(--g);text-align:center;margin-bottom:11px;}
+.atext p{font-size:13px;text-align:center;margin-bottom:7px;line-height:2;}
+.vn{color:var(--sf2);font-size:9px;display:block;margin:9px 0 3px;text-align:center;letter-spacing:2px;}
+
+/* ══ TOAST ══ */
+.toast{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + var(--nav-h) + 8px);left:50%;transform:translateX(-50%) translateY(30px);background:rgba(20,3,0,.97);border:1px solid rgba(212,160,23,.38);border-radius:20px;padding:8px 18px;color:var(--g);font-size:12px;z-index:800;box-shadow:0 4px 16px rgba(0,0,0,.5);transition:transform .32s cubic-bezier(.34,1.56,.64,1),opacity .32s;opacity:0;white-space:nowrap;pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+
+/* ══ CELEBRATE ══ */
+@keyframes popIn{0%{transform:scale(0) rotate(-10deg);opacity:0}65%{transform:scale(1.05) rotate(1deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+.celebrate{position:fixed;inset:0;z-index:1500;background:rgba(0,0,0,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:28px;text-align:center;animation:popIn .4s ease forwards;}
+.celebrate h2{font-family:'Cinzel Decorative',cursive;font-size:19px;color:var(--g);filter:drop-shadow(0 0 14px rgba(255,200,0,.7));}
+
+/* ══ RIPPLE ══ */
+@keyframes rip{0%{transform:translate(-50%,-50%) scale(.3);opacity:.8}100%{transform:translate(-50%,-50%) scale(4.5);opacity:0}}
+.rip{position:fixed;width:50px;height:50px;border-radius:50%;background:radial-gradient(circle,rgba(255,170,0,.5),transparent);pointer-events:none;animation:rip .5s ease-out forwards;z-index:200;}
+
+/* ══ DIVIDER ══ */
+.sect-div{display:flex;align-items:center;gap:8px;margin:14px 0 10px;}
+.sect-div::before,.sect-div::after{content:'';flex:1;height:1px;background:rgba(212,160,23,.15);}
+.sect-div span{font-size:10px;color:rgba(212,160,23,.4);letter-spacing:2px;}
+
+/* ══ NOTIF STATUS ══ */
+.nb-st{font-size:10px;margin-top:4px;padding:2px 8px;border-radius:7px;display:inline-block;}
+.nb-st.ok{background:rgba(0,200,100,.1);color:#60FF90;border:1px solid rgba(0,200,100,.18);}
+.nb-st.no{background:rgba(200,50,50,.1);color:#FF8080;border:1px solid rgba(200,50,50,.18);}
+.nb-st.may{background:rgba(200,160,0,.08);color:var(--g);border:1px solid rgba(200,160,0,.16);}
+
+/* ══ THEME ══ */
+.th-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px;}
+.th-c{border-radius:10px;padding:10px 4px;border:2px solid transparent;cursor:pointer;text-align:center;transition:all .22s;}
+.th-c.on{border-color:var(--g);box-shadow:0 0 10px rgba(212,160,23,.25);}
+.th-c .ti{font-size:20px;margin-bottom:2px;}
+.th-c .tn{font-family:'Cinzel Decorative',cursive;font-size:8px;letter-spacing:.5px;}
+
+/* ══ PWA INSTALL GUIDE ══ */
+.install-box{background:rgba(0,0,0,.3);border:1px solid var(--bdr);border-radius:12px;padding:13px;margin-bottom:10px;}
+.install-step{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(212,160,23,.07);}
+.install-step:last-child{border-bottom:none;}
+.step-num{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--sf),var(--g));display:flex;align-items:center;justify-content:center;font-size:10px;font-family:'Cinzel Decorative',cursive;color:#fff;flex-shrink:0;}
+.step-txt{font-size:12px;color:rgba(255,200,120,.65);line-height:1.6;}
+.step-txt b{color:var(--cr);}
+
+/* scrollbar */
+::-webkit-scrollbar{width:3px;height:3px;}
+::-webkit-scrollbar-thumb{background:rgba(212,160,23,.2);border-radius:3px;}
+</style>
+</head>
+<body>
+
+<div id="ptc"></div>
+
+<!-- ══ LOGIN SCREEN ══ -->
+<div class="screen active" id="s-login">
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;gap:0;">
+    <div class="login-lotus">🌸</div>
+    <div class="login-title">राधे राधे</div>
+    <div class="login-sub">Radha Jap Counter — Sign in to save your jap</div>
+    <div class="login-box" id="loginBox">
+      <!-- tabs -->
+      <div style="display:flex;gap:6px;margin-bottom:16px;">
+        <button style="flex:1;padding:8px;border-radius:9px;border:1px solid var(--bdr);background:rgba(212,160,23,.14);border-color:var(--g);color:var(--g2);font-size:12px;cursor:pointer;font-family:inherit;" id="tabLogin" onclick="switchTab('login')">Sign In</button>
+        <button style="flex:1;padding:8px;border-radius:9px;border:1px solid var(--bdr);background:rgba(0,0,0,.3);color:rgba(255,205,120,.4);font-size:12px;cursor:pointer;font-family:inherit;" id="tabReg" onclick="switchTab('reg')">Register</button>
+      </div>
+      <!-- Login form -->
+      <div id="fLogin">
+        <div class="lbl">PHONE NUMBER</div>
+        <div class="phone-row">
+          <input class="cc" id="ccL" value="+91" maxlength="5" style="width:62px;padding:12px 6px;">
+          <input class="finp" id="phoneL" type="tel" placeholder="Enter phone number" style="flex:1;margin-bottom:0;" maxlength="15">
+        </div>
+        <div class="lbl" style="margin-top:8px;">NAME</div>
+        <input class="finp" id="nameL" type="text" placeholder="Your name">
+        <button class="login-btn" onclick="doLogin()">🙏 Sign In / Enter</button>
+        <div class="login-err" id="loginErr"></div>
+      </div>
+      <!-- Register form -->
+      <div id="fReg" style="display:none">
+        <div class="lbl">YOUR NAME</div>
+        <input class="finp" id="nameR" type="text" placeholder="e.g. Anuj Kumar">
+        <div class="lbl">PHONE NUMBER</div>
+        <div class="phone-row">
+          <input class="cc" id="ccR" value="+91" maxlength="5" style="width:62px;padding:12px 6px;">
+          <input class="finp" id="phoneR" type="tel" placeholder="10-digit number" style="flex:1;margin-bottom:0;" maxlength="15">
+        </div>
+        <button class="login-btn" onclick="doRegister()" style="margin-top:12px">🌸 Create Account</button>
+        <div class="login-err" id="regErr"></div>
+      </div>
+      <button class="login-skip" onclick="skipLogin()">Continue without account →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SPLASH / SHLOKA ══ -->
+<div class="screen" id="s-splash">
+  <div class="sp-lotus">🌸</div>
+  <div class="sp-shl" id="spShl"></div>
+  <div class="sp-mn" id="spMn"></div>
+  <div class="sp-dt" id="spDt"></div>
+  <button class="sp-btn" onclick="enterApp()">🙏 जय राधे — Begin</button>
+</div>
+
+<!-- ══ MAIN APP ══ -->
+<div id="app">
+  <div class="hdr">
+    <div class="hdr-d">✦ श्री ✦</div>
+    <h1>राधे राधे</h1>
+    <div class="hdr-sub">Radha Jap Counter</div>
+    <div class="lv-badge" id="lvBadge">🌱 Sevak</div>
+    <div class="hdr-line"><span style="font-size:16px;color:var(--g);filter:drop-shadow(0 0 4px var(--g))">🕉️</span></div>
+  </div>
+
+  <div class="sbanner" id="sbanner">
+    <span class="sfl" id="sfl">🔥</span>
+    <div class="sinfo">
+      <div class="snum" id="snum">0</div>
+      <div class="ssub" id="ssub">Start your streak today!</div>
+      <div class="swarn" id="swarn" style="display:none">⚠️ Do jap today to keep streak!</div>
+    </div>
+    <button class="notif-btn" onclick="reqNotif()">🔔 Remind</button>
+  </div>
+
+  <div class="panels" id="panels">
+
+    <!-- ═══ JAP ═══ -->
+    <div class="pnl on" id="p-jap">
+      <div class="mantra-box">
+        <div class="mt">🌸 राधे राधे 🌸</div>
+        <div class="ml">RADHE RADHE MANTRA</div>
+      </div>
+      <div class="cps" id="tcps">
+        <button class="cp on" onclick="setTgt(108,this)">108</button>
+        <button class="cp" onclick="setTgt(251,this)">251</button>
+        <button class="cp" onclick="setTgt(501,this)">501</button>
+        <button class="cp" onclick="setTgt(1008,this)">1008</button>
+        <button class="cp" onclick="setTgt(1200,this)">1200</button>
+        <button class="cp" onclick="setTgt(5000,this)">5000</button>
+        <button class="cp" id="custcp" onclick="askTgt()">✏️</button>
+      </div>
+      <div class="pb-wrap">
+        <div class="pb-row"><span>Session Target</span><span class="pb-v"><span id="tpd">0</span> / <span id="tpg">108</span></span></div>
+        <div class="pb"><div class="pb-f" id="tpf" style="width:0%"></div></div>
+      </div>
+      <div class="mala-wrap">
+        <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+          <defs>
+            <radialGradient id="bG" cx="35%" cy="35%"><stop offset="0%" stop-color="#FFD700"/><stop offset="60%" stop-color="#B8860B"/><stop offset="100%" stop-color="#6B4200"/></radialGradient>
+            <radialGradient id="bA" cx="35%" cy="35%"><stop offset="0%" stop-color="#FF9500"/><stop offset="60%" stop-color="#FF5500"/><stop offset="100%" stop-color="#8B2500"/></radialGradient>
+            <filter id="gl"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <linearGradient id="tg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FF6B00"/><stop offset="100%" stop-color="#FFD700"/></linearGradient>
+          </defs>
+          <circle cx="120" cy="120" r="96" fill="none" stroke="rgba(212,160,23,0.1)" stroke-width="1.5" stroke-dasharray="4,5"/>
+          <g id="beads"></g>
+          <text x="120" y="110" text-anchor="middle" font-size="25" fill="#FFD700" filter="url(#gl)">🌸</text>
+          <text x="120" y="132" text-anchor="middle" font-size="8" fill="rgba(255,200,120,0.55)" letter-spacing="1" font-family="sans-serif">राधे</text>
+        </svg>
+      </div>
+      <div class="jbw">
+        <button class="jbtn" onclick="doJap(event)">
+          <span class="jnum" id="jnum">0</span>
+          <span class="jlbl">JAP</span>
+        </button>
+        <div class="chips2">
+          <div class="ic"><div class="icv" id="mcnt">0</div><div class="icl">Mala</div></div>
+          <div class="ic"><div class="icv" id="bcnt">1</div><div class="icl">Bead</div></div>
+          <div class="ic"><div class="icv" id="tdcnt">0</div><div class="icl">Today</div></div>
+        </div>
+        <div class="rbtns">
+          <button class="btn" onclick="undo()">↩ Undo</button>
+          <button class="btn red" onclick="resetSess()">↺ Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ CALENDAR ═══ -->
+    <div class="pnl" id="p-cal">
+      <!-- Heatmap -->
+      <div class="card">
+        <div class="ct">📊 Jap Activity</div>
+        <div class="hmap-scroll" id="hmapScroll">
+          <div class="hmap-wrap" id="hmap"></div>
+        </div>
+        <div class="hmap-legend">
+          <span>Less</span>
+          <div class="hmap-lsq" style="background:var(--h0)"></div>
+          <div class="hmap-lsq" style="background:var(--h1)"></div>
+          <div class="hmap-lsq" style="background:var(--h2)"></div>
+          <div class="hmap-lsq" style="background:var(--h3)"></div>
+          <div class="hmap-lsq" style="background:var(--h4)"></div>
+          <span>More</span>
+        </div>
+        <div class="hmap-stats" id="hmapStats"></div>
+      </div>
+
+      <!-- Month nav -->
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <button class="btn" onclick="prevMon()" style="padding:5px 12px;font-size:16px;">‹</button>
+          <div class="ct" style="margin:0;" id="calTitle">Month</div>
+          <button class="btn" onclick="nextMon()" style="padding:5px 12px;font-size:16px;">›</button>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;">
+          <span style="font-size:9px;color:rgba(255,205,120,.4)">🟡 Jap</span>
+          <span style="font-size:9px;color:rgba(255,205,120,.4)">🟠 Festival</span>
+          <span style="font-size:9px;color:rgba(200,150,255,.4)">🟣 Ekadashi</span>
+          <span style="font-size:9px;color:rgba(255,205,120,.4)">⬜ Today</span>
+        </div>
+      </div>
+
+      <!-- Festival list -->
+      <div class="card">
+        <div class="ct">🪔 Hindu Festivals 2025–2026</div>
+        <div class="stabs">
+          <button class="stab on" onclick="filtFest('all',this)">All / सभी</button>
+          <button class="stab" onclick="filtFest('ekad',this)">Ekadashi / एकादशी</button>
+          <button class="stab" onclick="filtFest('major',this)">Major / मुख्य</button>
+          <button class="stab" onclick="filtFest('up',this)">Upcoming / आगामी</button>
+        </div>
+        <div id="festList"></div>
+      </div>
+    </div>
+
+    <!-- ═══ SADHANA + SANKALP ═══ -->
+    <div class="pnl" id="p-sad">
+      <!-- Streak -->
+      <div class="card">
+        <div class="ct"><span style="font-size:19px;animation:flkr 2s infinite">🔥</span> Daily Streak / दैनिक स्ट्रीक</div>
+        <div class="big-num" id="bigStrk">0</div>
+        <div style="text-align:center;font-size:9px;letter-spacing:2px;opacity:.45;margin-top:3px">CONSECUTIVE DAYS / लगातार दिन</div>
+        <div class="ms-row" id="msRow"></div>
+      </div>
+
+      <!-- Daily goal -->
+      <div class="card">
+        <div class="ct">🎯 Daily Goal / दैनिक लक्ष्य</div>
+        <div class="pb-wrap" style="margin-bottom:8px">
+          <div class="pb-row"><span>Today / आज</span><span class="pb-v"><span id="dgd">0</span> / <span id="dgg">108</span></span></div>
+          <div class="pb"><div class="pb-f" id="dgb" style="width:0%"></div></div>
+        </div>
+        <div style="display:flex;gap:7px;align-items:center;">
+          <input type="number" id="goalInp" placeholder="Set goal (e.g. 108, 1008)" style="flex:1">
+          <button class="btn pri" onclick="setGoal()" style="padding:9px 14px;white-space:nowrap">Set</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="card">
+        <div class="ct">📊 All Time Stats</div>
+        <div class="sg">
+          <div class="sbox"><div class="sbv" id="stT">0</div><div class="sbl">Total Jap</div></div>
+          <div class="sbox"><div class="sbv" id="stM">0</div><div class="sbl">Malas</div></div>
+          <div class="sbox"><div class="sbv" id="stD">0</div><div class="sbl">Days Active</div></div>
+          <div class="sbox"><div class="sbv" id="stB">0</div><div class="sbl">Best Day</div></div>
+        </div>
+      </div>
+
+      <!-- Sankalp -->
+      <div class="card">
+        <div class="ct">🙏 Sankalp / संकल्प (Sacred Vow)</div>
+        <div id="skActive" style="display:none">
+          <div style="font-family:'Cinzel Decorative',cursive;font-size:32px;color:var(--g2);text-align:center;filter:drop-shadow(0 0 9px rgba(255,200,0,.6));line-height:1;" id="skDn">0</div>
+          <div style="text-align:center;font-size:11px;color:var(--sf2);margin-top:3px">of <span id="skTt">0</span> jap · <span id="skNm"></span></div>
+          <div style="font-family:'Cinzel Decorative',cursive;font-size:16px;color:var(--sf);text-align:center;margin-top:6px;" id="skDy">0 days left</div>
+          <div class="pb-wrap" style="margin-top:11px">
+            <div class="pb-row"><span>Sankalp Progress</span><span class="pb-v" id="skPc">0%</span></div>
+            <div class="pb"><div class="pb-f" id="skBr" style="width:0%"></div></div>
+          </div>
+          <div style="font-size:10px;opacity:.45;text-align:center;margin-top:6px;" id="skPD"></div>
+          <button class="btn red btn full" style="margin-top:11px" onclick="clearSk()">✕ Cancel Sankalp</button>
+        </div>
+        <div id="skNew">
+          <div style="font-size:12px;color:rgba(255,200,120,.55);margin-bottom:11px;line-height:1.8">संकल्प लें — एक निश्चित संख्या में जप करने का वचन।<br><span style="color:rgba(255,200,120,.35)">Example: 1 lakh jap in 40 days</span></div>
+          <div class="sk-form">
+            <input type="number" class="s-inp" id="skTI" placeholder="Total jap (e.g. 100000)">
+            <input type="number" class="s-inp" id="skDI" placeholder="Days (e.g. 40)">
+          </div>
+          <input type="text" class="s-inp" id="skNI" placeholder="Sankalp name / नाम (e.g. Sawan Sankalp)" style="margin-top:7px">
+          <button class="btn pri btn full" style="margin-top:10px" onclick="startSk()">🙏 Take Sankalp / संकल्प लें</button>
+        </div>
+      </div>
+
+      <!-- Diary -->
+      <div class="card">
+        <div class="ct">📖 Sadhana Diary / साधना डायरी</div>
+        <textarea rows="3" id="diary" placeholder="आज के जप के बारे में लिखें... / Write about today's session..."></textarea>
+        <div class="rbtns" style="margin-top:8px">
+          <button class="btn pri" onclick="saveDiary()">💾 Save</button>
+          <button class="btn" onclick="loadDiary()">📂 Load</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ MORE ═══ -->
+    <div class="pnl" id="p-more">
+      <!-- Quick access grid -->
+      <div class="more-menu">
+        <div class="more-item" onclick="showMoreSub('timer')"><i>⏱️</i><span>TIMER</span></div>
+        <div class="more-item" onclick="showMoreSub('aarti')"><i>📖</i><span>AARTI</span></div>
+        <div class="more-item" onclick="showMoreSub('share')"><i>📤</i><span>SHARE</span></div>
+        <div class="more-item" onclick="showMoreSub('settings')"><i>⚙️</i><span>SETTINGS</span></div>
+      </div>
+
+      <!-- Timer sub -->
+      <div id="sub-timer" style="display:none">
+        <div class="card" style="text-align:center">
+          <div class="ct" style="justify-content:center">⏱️ Jap Session Timer</div>
+          <div class="timer-ring">
+            <svg viewBox="0 0 150 150"><circle class="t-bg" cx="75" cy="75" r="65"/><circle class="t-pr" cx="75" cy="75" r="65" id="tCirc"/></svg>
+            <div class="t-time" id="tDisp">10:00</div>
+          </div>
+          <div class="pre-row">
+            <button class="pre on" onclick="setTmr(10,this)">10m</button>
+            <button class="pre" onclick="setTmr(21,this)">21m</button>
+            <button class="pre" onclick="setTmr(27,this)">27m</button>
+            <button class="pre" onclick="setTmr(54,this)">54m</button>
+            <button class="pre" onclick="setTmr(108,this)">108m</button>
+          </div>
+          <div class="tbtns">
+            <button class="tbtn" onclick="rstTmr()">↺</button>
+            <button class="tbtn play" id="playBtn" onclick="togTmr()">▶</button>
+            <button class="tbtn" onclick="sayR(true)">🎵</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ct">🕯️ Session Notes</div>
+          <textarea rows="3" id="sessNotes" placeholder="मन की भावना यहाँ लिखें..."></textarea>
+        </div>
+      </div>
+
+      <!-- Aarti sub -->
+      <div id="sub-aarti" style="display:none">
+        <div class="card">
+          <div class="ct">📖 Aarti & Chalisa</div>
+          <div class="stabs">
+            <button class="stab on" onclick="showTxt('ra',this)">राधे आरती</button>
+            <button class="stab" onclick="showTxt('ka',this)">कृष्ण</button>
+            <button class="stab" onclick="showTxt('hc',this)">हनुमान</button>
+            <button class="stab" onclick="showTxt('rs',this)">राधा स्तुति</button>
+          </div>
+          <div class="atext" id="aText"></div>
+        </div>
+      </div>
+
+      <!-- Share sub -->
+      <div id="sub-share" style="display:none">
+        <div class="card">
+          <div class="ct">📤 Share Jap Card</div>
+          <div style="background:linear-gradient(135deg,#3D0C02,#1A0400);border:2px solid var(--g);border-radius:14px;padding:18px;text-align:center;margin-bottom:11px;">
+            <div style="font-size:22px;margin-bottom:5px">🌸 ॐ 🌸</div>
+            <div style="font-family:'Cinzel Decorative',cursive;font-size:14px;color:var(--g2)">राधे राधे</div>
+            <div style="font-family:'Cinzel Decorative',cursive;font-size:38px;color:var(--sf);filter:drop-shadow(0 0 10px rgba(255,107,0,.5));margin:5px 0;" id="scC">0</div>
+            <div style="font-size:11px;color:var(--sf2);" id="scS">Jap today</div>
+            <div style="font-size:10px;color:rgba(255,200,120,.55);margin-top:4px;" id="scSt">🔥 0 day streak</div>
+            <div style="font-size:9px;color:rgba(255,200,120,.3);margin-top:6px;letter-spacing:2px">JAY SHRI RADHE</div>
+          </div>
+          <div class="rbtns">
+            <button class="btn pri" onclick="shareNow()">📤 Share</button>
+            <button class="btn" onclick="copyShare()">📋 Copy</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings sub -->
+      <div id="sub-settings" style="display:none">
+        <!-- Sound -->
+        <div class="card">
+          <div class="ct">🎵 Sound</div>
+          <div class="tog-row">
+            <div><div class="tr-n">🌸 "श्री राधे" Voice</div><div class="tr-s">Speaks on every jap</div></div>
+            <div class="tog on" id="tSp" onclick="togS('soundSpeech','tSp')"><div class="tok"></div></div>
+          </div>
+          <div class="tog-row">
+            <div><div class="tr-n">🔔 Mala Complete Chime</div><div class="tr-s">Every 108 jap</div></div>
+            <div class="tog on" id="tMl" onclick="togS('soundMala','tMl')"><div class="tok"></div></div>
+          </div>
+          <div class="tog-row">
+            <div><div class="tr-n">📳 Vibration</div><div class="tr-s">Haptic feedback</div></div>
+            <div class="tog on" id="tVb" onclick="togS('soundVibrate','tVb')"><div class="tok"></div></div>
+          </div>
+          <button class="btn pri btn full" style="margin-top:11px" onclick="sayR(true)">🌸 Test Voice — श्री राधे</button>
+        </div>
+        <!-- Voice sliders -->
+        <div class="card">
+          <div class="ct">🔊 Voice Settings</div>
+          <div class="tog-row"><span style="font-size:12px">Volume / आवाज़</span><input type="range" id="volS" min=".4" max="1" step=".05" value="1" style="accent-color:var(--sf);width:100px" oninput="updV()"></div>
+          <div class="tog-row"><span style="font-size:12px">Speed / गति</span><input type="range" id="rateS" min=".5" max="1.3" step=".05" value=".8" style="accent-color:var(--sf);width:100px" oninput="updV()"></div>
+          <div class="tog-row"><span style="font-size:12px">Pitch / सुर</span><input type="range" id="pitchS" min=".8" max="2" step=".05" value="1.2" style="accent-color:var(--sf);width:100px" oninput="updV()"></div>
+        </div>
+        <!-- Theme -->
+        <div class="card">
+          <div class="ct">🎨 Theme</div>
+          <div class="th-grid">
+            <div class="th-c on" style="background:linear-gradient(135deg,#3D0C02,#1a0400)" onclick="setTheme('',this)"><div class="ti">🔥</div><div class="tn" style="color:#D4A017">Saffron</div></div>
+            <div class="th-c" style="background:linear-gradient(135deg,#0A3D1F,#021206)" onclick="setTheme('vr',this)"><div class="ti">🌿</div><div class="tn" style="color:#4CAF50">Vrindavan</div></div>
+            <div class="th-c" style="background:linear-gradient(135deg,#4A0E2A,#0D0208)" onclick="setTheme('lt',this)"><div class="ti">🌸</div><div class="tn" style="color:#FF80AB">Lotus</div></div>
+            <div class="th-c" style="background:linear-gradient(135deg,#0A1A4A,#020410)" onclick="setTheme('sk',this)"><div class="ti">🌙</div><div class="tn" style="color:#82B1FF">Night</div></div>
+          </div>
+        </div>
+        <!-- Install -->
+        <div class="card">
+          <div class="ct">📱 Install App</div>
+          <!-- Android -->
+          <div style="margin-bottom:10px;">
+            <div style="font-size:11px;color:var(--sf2);font-family:'Cinzel Decorative',cursive;letter-spacing:1px;margin-bottom:6px;">🤖 Android Chrome:</div>
+            <div class="install-box">
+              <div class="install-step"><div class="step-num">1</div><div class="step-txt">Tap the <b>⋮ menu</b> (top right)</div></div>
+              <div class="install-step"><div class="step-num">2</div><div class="step-txt">Tap <b>"Install App"</b> or <b>"Add to Home Screen"</b></div></div>
+              <div class="install-step"><div class="step-num">3</div><div class="step-txt">Tap <b>Install</b> — Works offline!</div></div>
+            </div>
+          </div>
+          <!-- iOS -->
+          <div>
+            <div style="font-size:11px;color:var(--sf2);font-family:'Cinzel Decorative',cursive;letter-spacing:1px;margin-bottom:6px;">🍎 iPhone Safari:</div>
+            <div class="install-box">
+              <div class="install-step"><div class="step-num">1</div><div class="step-txt">Tap the <b>Share 🔗</b> button at bottom</div></div>
+              <div class="install-step"><div class="step-num">2</div><div class="step-txt">Scroll and tap <b>"Add to Home Screen"</b></div></div>
+              <div class="install-step"><div class="step-num">3</div><div class="step-txt">Tap <b>Add</b> — App icon appears!</div></div>
+            </div>
+          </div>
+          <button class="btn pri btn full" style="margin-top:10px" onclick="installPWA()" id="instBtn">📲 Install Now (Android)</button>
+          <div style="font-size:9px;color:rgba(255,200,120,.3);margin-top:6px;text-align:center">Works offline after install • Save to home screen</div>
+        </div>
+        <!-- Notifications -->
+        <div class="card">
+          <div class="ct">🔔 Notifications</div>
+          <div style="display:flex;align-items:center;gap:9px;">
+            <div style="flex:1;">
+              <div style="font-size:12px;">Streak Reminder (6 PM & 8 PM)</div>
+              <div class="nb-st may" id="notifStat">Not enabled</div>
+            </div>
+            <button class="btn pri" onclick="reqNotif()" style="white-space:nowrap;font-size:11px;padding:8px 11px">Enable</button>
+          </div>
+          <div class="rbtns" style="margin-top:9px">
+            <button class="btn" onclick="testNotif()" style="font-size:11px">Test</button>
+            <button class="btn" onclick="schedRemind()" style="font-size:11px">Schedule 8PM</button>
+          </div>
+        </div>
+        <!-- Data -->
+        <div class="card">
+          <div class="ct">⚠️ Data</div>
+          <button class="btn red btn full" onclick="resetAll()">🗑️ Reset All Data</button>
+          <div style="margin-top:8px">
+            <button class="btn btn full" onclick="doLogout()">🚪 Sign Out / साइन आउट</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PROFILE ═══ -->
+    <div class="pnl" id="p-prof">
+      <div class="card" style="text-align:center;padding:20px 14px;">
+        <div class="prof-avatar" id="profAvatar">?</div>
+        <div class="prof-name" id="profName">Guest</div>
+        <div class="prof-phone" id="profPhone"></div>
+        <div class="prof-since" id="profSince"></div>
+        <div style="margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+          <div class="ic"><div class="icv" id="pTotal">0</div><div class="icl">Total Jap</div></div>
+          <div class="ic"><div class="icv" id="pStreak">0</div><div class="icl">Streak</div></div>
+          <div class="ic"><div class="icv" id="pMalas">0</div><div class="icl">Malas</div></div>
+        </div>
+      </div>
+      <!-- Level -->
+      <div class="card">
+        <div class="ct">⭐ Bhakt Level</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:4px;" id="lvGrid"></div>
+      </div>
+      <!-- Cloud backup -->
+      <div class="card">
+        <div class="cloud-box">
+          <div class="cloud-title">☁️ CLOUD BACKUP</div>
+          <div class="cloud-sub" id="cloudSub">Your data is linked to your phone number. Sign in on any device to restore your jap history.</div>
+          <button class="sync-btn" onclick="syncData()">☁️ Sync / Backup Now</button>
+        </div>
+      </div>
+      <!-- Change name -->
+      <div class="card">
+        <div class="ct">✏️ Update Profile</div>
+        <input type="text" id="newName" placeholder="Update your name" style="margin-bottom:8px">
+        <button class="btn pri btn full" onclick="updateName()">Update Name</button>
+      </div>
+      <!-- Sign out -->
+      <div class="card">
+        <button class="btn btn full" onclick="doLogout()">🚪 Sign Out</button>
+      </div>
+    </div>
+
+  </div><!-- end panels -->
+
+  <!-- BOTTOM NAV — 5 tabs -->
+  <nav class="bnav">
+    <button class="bni on" onclick="goPnl('jap',this)"><i>📿</i>JAP<div class="dot"></div></button>
+    <button class="bni" onclick="goPnl('cal',this)"><i>📅</i>CALENDAR<div class="dot"></div></button>
+    <button class="bni" onclick="goPnl('sad',this)"><i>🔥</i>SADHANA<div class="dot"></div></button>
+    <button class="bni" onclick="goPnl('more',this)"><i>✨</i>MORE<div class="dot"></div></button>
+    <button class="bni" onclick="goPnl('prof',this)"><i>👤</i>PROFILE<div class="dot"></div></button>
+  </nav>
+</div><!-- end app -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════
+// STATE
+// ══════════════════════════
+let S={
+  count:0,total:0,dailyGoal:108,target:108,
+  soundSpeech:true,soundMala:true,soundVibrate:true,
+  streak:0,lastDate:null,hist:{},bestDay:0,daysActive:0,
+  voiceVol:1,voiceRate:.8,voicePitch:1.2,
+  sankalp:null,theme:'',
+  user:null // {name, phone, since}
+};
+let calMon=new Date().getMonth(), calYr=new Date().getFullYear();
+const td=()=>new Date().toISOString().split('T')[0];
+const SK='rjc5';
+const load=()=>{try{const d=localStorage.getItem(SK);if(d)S={...S,...JSON.parse(d)};}catch(e){}};
+const save=()=>{try{localStorage.setItem(SK,JSON.stringify(S));}catch(e){}};
+
+// ══════════════════════════
+// USER / LOGIN
+// ══════════════════════════
+function switchTab(t){
+  const isL=t==='login';
+  document.getElementById('fLogin').style.display=isL?'block':'none';
+  document.getElementById('fReg').style.display=isL?'none':'block';
+  document.getElementById('tabLogin').style.background=isL?'rgba(212,160,23,.14)':'rgba(0,0,0,.3)';
+  document.getElementById('tabLogin').style.borderColor=isL?'var(--g)':'var(--bdr)';
+  document.getElementById('tabLogin').style.color=isL?'var(--g2)':'rgba(255,205,120,.4)';
+  document.getElementById('tabReg').style.background=!isL?'rgba(212,160,23,.14)':'rgba(0,0,0,.3)';
+  document.getElementById('tabReg').style.borderColor=!isL?'var(--g)':'var(--bdr)';
+  document.getElementById('tabReg').style.color=!isL?'var(--g2)':'rgba(255,205,120,.4)';
+}
+function doLogin(){
+  const phone=(document.getElementById('ccL').value||'+91').trim()+(document.getElementById('phoneL').value||'').trim();
+  const name=(document.getElementById('nameL').value||'').trim();
+  if(!phone||phone.length<8){document.getElementById('loginErr').textContent='Enter a valid phone number';return;}
+  // Try to restore data from a stored user key
+  const stored=localStorage.getItem('user_'+phone);
+  if(stored){
+    const ud=JSON.parse(stored);
+    S={...S,...ud};
+    if(name)S.user.name=name;
+  } else {
+    S.user={name:name||'Bhakt',phone,since:td()};
+  }
+  save();showSplash();
+}
+function doRegister(){
+  const name=(document.getElementById('nameR').value||'').trim();
+  const phone=(document.getElementById('ccR').value||'+91').trim()+(document.getElementById('phoneR').value||'').trim();
+  if(!name){document.getElementById('regErr').textContent='Enter your name / नाम डालें';return;}
+  if(!phone||phone.length<8){document.getElementById('regErr').textContent='Enter a valid phone number';return;}
+  S.user={name,phone,since:td()};
+  save();showSplash();
+  toast('🌸 Account created! Jai Radhe!');
+}
+function skipLogin(){S.user={name:'Bhakt',phone:'',since:td()};save();showSplash();}
+function doLogout(){
+  if(!confirm('Sign out? Your data is saved locally.'))return;
+  S.user=null;save();
+  document.getElementById('s-login').classList.add('active');
+  document.getElementById('app').classList.remove('visible');
+}
+function updateName(){
+  const n=document.getElementById('newName').value.trim();
+  if(!n){toast('Enter a name');return;}
+  if(S.user)S.user.name=n;save();ui();toast('✅ Name updated!');
+  document.getElementById('newName').value='';
+}
+
+// Cloud sync (saves to localStorage keyed by phone)
+function syncData(){
+  if(!S.user||!S.user.phone){toast('Sign in to sync data');return;}
+  localStorage.setItem('user_'+S.user.phone,JSON.stringify(S));
+  toast('☁️ Data synced! Jai Radhe! 🙏');
+}
+
+// ══════════════════════════
+// SHLOKAS
+// ══════════════════════════
+const SHL=[
+  {s:'राधे राधे राधे,\nश्याम मिलाए राधे।',m:'Chant Radha\'s name — she unites you with Shyam.'},
+  {s:'राधा नाम सुधा रस पीजे,\nजीवन को सफल कर लीजे।',m:'Drink the nectar of Radha\'s name — make life successful.'},
+  {s:'वृन्दावन की कुंज गली में,\nराधा रानी विराजती हैं।',m:'In the lanes of Vrindavan, Queen Radha reigns forever.'},
+  {s:'राधे राधे बोलो सुबह शाम,\nपाओगे श्री राधे का धाम।',m:'Chant Radhe morning & evening — reach Radha\'s divine abode.'},
+  {s:'मन से राधे राधे बोलो,\nहृदय के द्वार खोलो।',m:'Chant from the heart and open the doors of your soul.'},
+  {s:'कृष्ण बिना राधा अधूरी,\nराधा बिना कृष्ण न पूरे।',m:'Krishna without Radha, Radha without Krishna — both incomplete.'},
+  {s:'जो राधा नाम जपे प्रेम से,\nउसे मिले वृन्दावन का धाम।',m:'One who chants Radha\'s name with love finds Vrindavan.'},
+];
+
+function showSplash(){
+  document.getElementById('s-login').classList.remove('active');
+  document.getElementById('s-splash').classList.add('active');
+  const s=SHL[new Date().getDay()%SHL.length];
+  document.getElementById('spShl').textContent=s.s;
+  document.getElementById('spMn').textContent=s.m;
+  document.getElementById('spDt').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+}
+function enterApp(){
+  document.getElementById('s-splash').classList.remove('active');
+  document.getElementById('app').classList.add('visible');
+  ui();
+}
+
+// ══════════════════════════
+// FESTIVALS 2025-2026
+// ══════════════════════════
+const FESTS=[
+  // ── EKADASHI 2025 ──
+  {d:'2025-01-10',n:'Putrada Ekadashi',h:'पुत्रदा एकादशी',i:'🕉️',t:'ekad',s:'Fast for blessings of sons • double jap merit'},
+  {d:'2025-01-25',n:'Shattila Ekadashi',h:'षटतिला एकादशी',i:'🕉️',t:'ekad',s:'Donate sesame seeds • purify sins'},
+  {d:'2025-02-09',n:'Jaya Ekadashi',h:'जया एकादशी',i:'🕉️',t:'ekad',s:'Victory Ekadashi • removes all sins'},
+  {d:'2025-02-24',n:'Vijaya Ekadashi',h:'विजया एकादशी',i:'🕉️',t:'ekad',s:'Fast for victory over enemies'},
+  {d:'2025-03-11',n:'Amalaki Ekadashi',h:'आमलकी एकादशी',i:'🕉️',t:'ekad',s:'Worship of Amla tree • very auspicious'},
+  {d:'2025-03-26',n:'Papamochani Ekadashi',h:'पापमोचनी एकादशी',i:'🕉️',t:'ekad',s:'Liberates from all sins'},
+  {d:'2025-04-10',n:'Kamada Ekadashi',h:'कामदा एकादशी',i:'🕉️',t:'ekad',s:'Fulfils all desires • most auspicious'},
+  {d:'2025-04-25',n:'Varuthini Ekadashi',h:'वरूथिनी एकादशी',i:'🕉️',t:'ekad',s:'Grants prosperity and fortune'},
+  {d:'2025-05-09',n:'Mohini Ekadashi',h:'मोहिनी एकादशी',i:'🕉️',t:'ekad',s:'Vishnu\'s enchanting form • very sacred'},
+  {d:'2025-05-24',n:'Apara Ekadashi',h:'अपरा एकादशी',i:'🕉️',t:'ekad',s:'Unlimited merit • removes birth-death cycle'},
+  {d:'2025-06-08',n:'Nirjala Ekadashi',h:'निर्जला एकादशी',i:'🕉️',t:'ekad',s:'Waterless fast • most powerful Ekadashi'},
+  {d:'2025-06-22',n:'Yogini Ekadashi',h:'योगिनी एकादशी',i:'🕉️',t:'ekad',s:'Cures diseases • grants liberation'},
+  {d:'2025-07-07',n:'Devshayani Ekadashi',h:'देवशयनी एकादशी',i:'🕉️',t:'ekad',s:'Vishnu sleeps • Chaturmas begins'},
+  {d:'2025-07-22',n:'Kamika Ekadashi',h:'कामिका एकादशी',i:'🕉️',t:'ekad',s:'During Sawan • very sacred'},
+  {d:'2025-08-05',n:'Sawan Putrada Ekadashi',h:'सावन पुत्रदा एकादशी',i:'🕉️',t:'ekad',s:'In Sawan month • double merit'},
+  {d:'2025-08-20',n:'Aja Ekadashi',h:'अजा एकादशी',i:'🕉️',t:'ekad',s:'Removes bad karma'},
+  {d:'2025-09-03',n:'Parsva Ekadashi',h:'पार्श्व एकादशी',i:'🕉️',t:'ekad',s:'Vishnu turns sides • midpoint of Chaturmas'},
+  {d:'2025-09-18',n:'Indira Ekadashi',h:'इंदिरा एकादशी',i:'🕉️',t:'ekad',s:'Helps ancestors attain moksha'},
+  {d:'2025-10-02',n:'Papankusha Ekadashi',h:'पापांकुशा एकादशी',i:'🕉️',t:'ekad',s:'Controls sins like an iron goad'},
+  {d:'2025-10-17',n:'Rama Ekadashi',h:'रमा एकादशी',i:'🕉️',t:'ekad',s:'Before Diwali — very auspicious'},
+  {d:'2025-11-01',n:'Devutthana Ekadashi',h:'देवउठनी एकादशी',i:'🕉️',t:'ekad',s:'Vishnu wakes • Tulsi Vivah day'},
+  {d:'2025-11-15',n:'Utpanna Ekadashi',h:'उत्पन्ना एकादशी',i:'🕉️',t:'ekad',s:'Birthday of Ekadashi'},
+  {d:'2025-11-30',n:'Mokshada Ekadashi',h:'मोक्षदा एकादशी',i:'🕉️',t:'ekad',s:'Gita Jayanti — grants liberation'},
+  {d:'2025-12-15',n:'Saphala Ekadashi',h:'सफला एकादशी',i:'🕉️',t:'ekad',s:'Makes all works successful'},
+  {d:'2025-12-30',n:'Putrada Ekadashi',h:'पुत्रदा एकादशी',i:'🕉️',t:'ekad',s:'Boon for children'},
+  // ── EKADASHI 2026 ──
+  {d:'2026-01-13',n:'Shattila Ekadashi',h:'षटतिला एकादशी',i:'🕉️',t:'ekad',s:'Donate sesame • purify sins'},
+  {d:'2026-01-28',n:'Jaya Ekadashi',h:'जया एकादशी',i:'🕉️',t:'ekad',s:'Victory over sin and rebirth'},
+  {d:'2026-02-11',n:'Vijaya Ekadashi',h:'विजया एकादशी',i:'🕉️',t:'ekad',s:'Fast for victory and success'},
+  {d:'2026-02-27',n:'Amalaki Ekadashi',h:'आमलकी एकादशी',i:'🕉️',t:'ekad',s:'Amla Navami • very auspicious'},
+  {d:'2026-03-13',n:'Papamochani Ekadashi',h:'पापमोचनी एकादशी',i:'🕉️',t:'ekad',s:'Liberation from all sins'},
+  {d:'2026-03-29',n:'Kamada Ekadashi',h:'कामदा एकादशी',i:'🕉️',t:'ekad',s:'Wish-fulfilling Ekadashi'},
+  {d:'2026-04-14',n:'Varuthini Ekadashi',h:'वरूथिनी एकादशी',i:'🕉️',t:'ekad',s:'Grants great fortune'},
+  {d:'2026-04-28',n:'Mohini Ekadashi',h:'मोहिनी एकादशी',i:'🕉️',t:'ekad',s:'Most enchanting Ekadashi'},
+  {d:'2026-05-13',n:'Apara Ekadashi',h:'अपरा एकादशी',i:'🕉️',t:'ekad',s:'Unlimited spiritual merit'},
+  {d:'2026-05-28',n:'Nirjala Ekadashi',h:'निर्जला एकादशी',i:'🕉️',t:'ekad',s:'Waterless fast — most powerful'},
+  {d:'2026-06-11',n:'Yogini Ekadashi',h:'योगिनी एकादशी',i:'🕉️',t:'ekad',s:'Destroys illness, grants liberation'},
+  {d:'2026-06-26',n:'Devshayani Ekadashi',h:'देवशयनी एकादशी',i:'🕉️',t:'ekad',s:'Vishnu sleeps • Chaturmas 2026 begins'},
+  {d:'2026-07-11',n:'Kamika Ekadashi',h:'कामिका एकादशी',i:'🕉️',t:'ekad',s:'Sawan Ekadashi • very sacred'},
+  {d:'2026-07-26',n:'Putrada Ekadashi',h:'पुत्रदा एकादशी',i:'🕉️',t:'ekad',s:'Blessings for children'},
+  {d:'2026-08-09',n:'Aja Ekadashi',h:'अजा एकादशी',i:'🕉️',t:'ekad',s:'Removes past karma'},
+  {d:'2026-08-24',n:'Parsva Ekadashi',h:'पार्श्व एकादशी',i:'🕉️',t:'ekad',s:'Vishnu turns — Chaturmas midpoint'},
+  {d:'2026-09-07',n:'Indira Ekadashi',h:'इंदिरा एकादशी',i:'🕉️',t:'ekad',s:'Frees ancestors from suffering'},
+  {d:'2026-09-22',n:'Papankusha Ekadashi',h:'पापांकुशा एकादशी',i:'🕉️',t:'ekad',s:'Controls all sins'},
+  {d:'2026-10-07',n:'Rama Ekadashi',h:'रमा एकादशी',i:'🕉️',t:'ekad',s:'Pre-Diwali fasting day'},
+  {d:'2026-10-21',n:'Devutthana Ekadashi',h:'देवउठनी एकादशी',i:'🕉️',t:'ekad',s:'Vishnu wakes up • Tulsi Vivah'},
+  {d:'2026-11-05',n:'Utpanna Ekadashi',h:'उत्पन्ना एकादशी',i:'🕉️',t:'ekad',s:'Ekadashi Jayanti'},
+  {d:'2026-11-19',n:'Mokshada Ekadashi',h:'मोक्षदा एकादशी',i:'🕉️',t:'ekad',s:'Gita Jayanti • grants moksha'},
+  {d:'2026-12-04',n:'Saphala Ekadashi',h:'सफला एकादशी',i:'🕉️',t:'ekad',s:'Success in all endeavours'},
+  {d:'2026-12-19',n:'Putrada Ekadashi',h:'पुत्रदा एकादशी',i:'🕉️',t:'ekad',s:'Boon of children & family'},
+  // ── MAJOR FESTIVALS 2025 ──
+  {d:'2025-01-13',n:'Lohri',h:'लोहड़ी',i:'🔥',t:'major',s:'Bonfire festival • Punjab harvest'},
+  {d:'2025-01-14',n:'Makar Sankranti',h:'मकर संक्रांति',i:'🪁',t:'major',s:'Sun enters Capricorn • kite festival'},
+  {d:'2025-01-29',n:'Basant Panchami',h:'बसंत पंचमी',i:'🌼',t:'major',s:'Saraswati Puja • spring begins'},
+  {d:'2025-02-26',n:'Maha Shivratri',h:'महाशिवरात्रि',i:'🔱',t:'major',s:'Night of Lord Shiva • all-night vigil'},
+  {d:'2025-03-14',n:'Holika Dahan',h:'होलिका दहन',i:'🔥',t:'major',s:'Burn negativity • eve of Holi'},
+  {d:'2025-03-15',n:'Holi',h:'होली',i:'🌈',t:'major',s:'Festival of colours • Radhe Krishna\'s joy'},
+  {d:'2025-03-30',n:'Gudi Padwa / Ugadi',h:'गुड़ी पड़वा',i:'🌅',t:'major',s:'Hindu New Year — Maharashtra & South'},
+  {d:'2025-04-06',n:'Ram Navami',h:'राम नवमी',i:'🏹',t:'major',s:'Birthday of Lord Rama'},
+  {d:'2025-04-13',n:'Baisakhi',h:'बैसाखी',i:'🌾',t:'major',s:'Punjabi New Year • harvest festival'},
+  {d:'2025-05-12',n:'Buddha Purnima',h:'बुद्ध पूर्णिमा',i:'☸️',t:'major',s:'Birthday of Lord Buddha'},
+  {d:'2025-06-27',n:'Rath Yatra',h:'रथ यात्रा',i:'🚂',t:'major',s:'Lord Jagannath\'s chariot procession'},
+  {d:'2025-07-10',n:'Guru Purnima',h:'गुरु पूर्णिमा',i:'🌕',t:'major',s:'Honour your Guru • best day for jap'},
+  {d:'2025-08-09',n:'Nag Panchami',h:'नाग पंचमी',i:'🐍',t:'major',s:'Worship of serpent gods'},
+  {d:'2025-08-16',n:'Janmashtami',h:'जन्माष्टमी',i:'🦚',t:'major',s:'Krishna\'s Birthday — all-night jap!'},
+  {d:'2025-08-22',n:'Radhashtami',h:'राधाष्टमी',i:'🌸',t:'major',s:'Radha\'s Birthday — most sacred day!'},
+  {d:'2025-09-01',n:'Ganesh Chaturthi',h:'गणेश चतुर्थी',i:'🐘',t:'major',s:'Birthday of Lord Ganesha'},
+  {d:'2025-09-22',n:'Pitru Paksha Begins',h:'पितृ पक्ष',i:'🙏',t:'major',s:'Shradh — honour and pray for ancestors'},
+  {d:'2025-10-02',n:'Navratri Begins',h:'नवरात्रि',i:'🪔',t:'major',s:'Nine nights of Goddess Durga • fast & worship'},
+  {d:'2025-10-10',n:'Durga Ashtami',h:'दुर्गा अष्टमी',i:'⚔️',t:'major',s:'8th day of Navratri • Kanya Puja'},
+  {d:'2025-10-12',n:'Vijaya Dashami (Dussehra)',h:'विजयादशमी',i:'🏹',t:'major',s:'Victory of good over evil'},
+  {d:'2025-10-20',n:'Sharad Purnima',h:'शरद पूर्णिमा',i:'🌕',t:'major',s:'Full moon • Lakshmi puja at night'},
+  {d:'2025-10-20',n:'Karva Chauth',h:'करवा चौथ',i:'🌙',t:'major',s:'Women\'s fast for husband\'s long life'},
+  {d:'2025-10-28',n:'Dhanteras',h:'धनतेरस',i:'💰',t:'major',s:'Buy gold/silver • Lakshmi & Kuber puja'},
+  {d:'2025-10-29',n:'Narak Chaturdashi',h:'नरक चतुर्दशी',i:'🕯️',t:'major',s:'Chhoti Diwali • 14 lamps'},
+  {d:'2025-10-30',n:'Diwali',h:'दीपावली',i:'✨',t:'major',s:'Festival of lights • Lakshmi puja'},
+  {d:'2025-10-31',n:'Govardhan Puja',h:'गोवर्धन पूजा',i:'⛰️',t:'major',s:'Krishna lifted Govardhan mountain'},
+  {d:'2025-11-01',n:'Bhai Dooj',h:'भाई दूज',i:'👫',t:'major',s:'Brother-sister love festival'},
+  {d:'2025-11-05',n:'Chhath Puja',h:'छठ पूजा',i:'🌅',t:'major',s:'Worship of Sun god at river'},
+  {d:'2025-11-05',n:'Tulsi Vivah',h:'तुलसी विवाह',i:'🌿',t:'major',s:'Sacred marriage of Tulsi & Vishnu'},
+  {d:'2025-11-27',n:'Kartik Purnima',h:'कार्तिक पूर्णिमा',i:'🌕',t:'major',s:'Dev Diwali • lamps at Ganga Ghat'},
+  {d:'2025-12-25',n:'Christmas',h:'क्रिसमस',i:'⭐',t:'major',s:'Festival of peace and love'},
+  // ── MAJOR FESTIVALS 2026 ──
+  {d:'2026-01-14',n:'Makar Sankranti',h:'मकर संक्रांति',i:'🪁',t:'major',s:'Sun enters Capricorn 2026'},
+  {d:'2026-02-02',n:'Basant Panchami',h:'बसंत पंचमी',i:'🌼',t:'major',s:'Saraswati Puja 2026'},
+  {d:'2026-02-15',n:'Maha Shivratri',h:'महाशिवरात्रि',i:'🔱',t:'major',s:'Night of Shiva 2026'},
+  {d:'2026-03-03',n:'Holika Dahan',h:'होलिका दहन',i:'🔥',t:'major',s:'Eve of Holi 2026'},
+  {d:'2026-03-04',n:'Holi',h:'होली',i:'🌈',t:'major',s:'Festival of colours 2026'},
+  {d:'2026-03-19',n:'Gudi Padwa / Ugadi',h:'गुड़ी पड़वा',i:'🌅',t:'major',s:'Hindu New Year 2026'},
+  {d:'2026-03-28',n:'Ram Navami',h:'राम नवमी',i:'🏹',t:'major',s:'Birthday of Lord Rama 2026'},
+  {d:'2026-04-14',n:'Baisakhi',h:'बैसाखी',i:'🌾',t:'major',s:'Punjabi New Year 2026'},
+  {d:'2026-05-01',n:'Buddha Purnima',h:'बुद्ध पूर्णिमा',i:'☸️',t:'major',s:'Birthday of Lord Buddha 2026'},
+  {d:'2026-06-24',n:'Rath Yatra',h:'रथ यात्रा',i:'🚂',t:'major',s:'Jagannath Rath Yatra 2026'},
+  {d:'2026-07-01',n:'Guru Purnima',h:'गुरु पूर्णिमा',i:'🌕',t:'major',s:'Honour your Guru 2026'},
+  {d:'2026-08-05',n:'Janmashtami',h:'जन्माष्टमी',i:'🦚',t:'major',s:'Krishna\'s Birthday 2026 — all-night jap!'},
+  {d:'2026-08-11',n:'Radhashtami',h:'राधाष्टमी',i:'🌸',t:'major',s:'Radha\'s Birthday 2026 — most sacred!'},
+  {d:'2026-08-22',n:'Ganesh Chaturthi',h:'गणेश चतुर्थी',i:'🐘',t:'major',s:'Lord Ganesha\'s birthday 2026'},
+  {d:'2026-09-21',n:'Navratri Begins',h:'नवरात्रि',i:'🪔',t:'major',s:'Nine nights of Goddess Durga 2026'},
+  {d:'2026-10-01',n:'Dussehra',h:'दशहरा',i:'🏹',t:'major',s:'Victory of good 2026'},
+  {d:'2026-10-18',n:'Diwali',h:'दीपावली',i:'✨',t:'major',s:'Festival of lights 2026'},
+  {d:'2026-10-19',n:'Govardhan Puja',h:'गोवर्धन पूजा',i:'⛰️',t:'major',s:'Govardhan Puja 2026'},
+  {d:'2026-10-20',n:'Bhai Dooj',h:'भाई दूज',i:'👫',t:'major',s:'Sibling love festival 2026'},
+  {d:'2026-11-16',n:'Kartik Purnima',h:'कार्तिक पूर्णिमा',i:'🌕',t:'major',s:'Dev Diwali 2026'},
+  {d:'2026-12-25',n:'Christmas',h:'क्रिसमस',i:'⭐',t:'major',s:'Festival of peace 2026'},
+];
+
+// ══════════════════════════
+// LEVELS
+// ══════════════════════════
+const LVS=[
+  {i:'🌱',n:'Sevak',r:0,l:'Begin'},
+  {i:'🌸',n:'Bhakt',r:1008,l:'1008+'},
+  {i:'🪷',n:'Prem Bhakt',r:10000,l:'10K+'},
+  {i:'⭐',n:'Sadhak',r:50000,l:'50K+'},
+  {i:'🔱',n:'Vaishnav',r:100000,l:'1 Lakh'},
+  {i:'🌙',n:'Maha Bhakt',r:500000,l:'5 Lakh'},
+  {i:'🕉️',n:'Sant',r:1000000,l:'10 Lakh'},
+  {i:'🌟',n:'Maha Sant',r:10000000,l:'1 Crore'},
+];
+const curLv=()=>{let l=LVS[0];for(const x of LVS)if(S.total>=x.r)l=x;return l;};
+
+// ══════════════════════════
+// SPEECH
+// ══════════════════════════
+const syn=window.speechSynthesis;
+let hv=null;
+const ldV=()=>{if(!syn)return;const v=syn.getVoices();hv=v.find(x=>x.lang.startsWith('hi'))||v.find(x=>x.lang.startsWith('en-IN'))||v[0]||null;};
+if(syn){syn.onvoiceschanged=ldV;ldV();}
+const PH=['श्री राधे','राधे राधे','जय राधे','राधे','श्री राधे राधे'];
+function sayR(force=false){
+  if(!S.soundSpeech&&!force)return;if(!syn)return;syn.cancel();
+  const u=new SpeechSynthesisUtterance(force?'श्री राधे राधे':PH[Math.floor(Math.random()*PH.length)]);
+  u.lang='hi-IN';if(hv)u.voice=hv;u.volume=Math.min(1,S.voiceVol);u.rate=S.voiceRate;u.pitch=S.voicePitch;syn.speak(u);
+}
+function sayMala(){if(!syn)return;syn.cancel();const u=new SpeechSynthesisUtterance('जय राधे! एक माला पूर्ण!');u.lang='hi-IN';if(hv)u.voice=hv;u.volume=1;u.rate=.75;u.pitch=1.3;syn.speak(u);}
+function updV(){S.voiceVol=+document.getElementById('volS').value;S.voiceRate=+document.getElementById('rateS').value;S.voicePitch=+document.getElementById('pitchS').value;save();}
+
+// ══════════════════════════
+// AUDIO
+// ══════════════════════════
+let aC;const gAC=()=>{if(!aC)aC=new(window.AudioContext||window.webkitAudioContext)();return aC;};
+function chime(f=523,d=1.2,v=.5){try{const c=gAC();const o=c.createOscillator();const g=c.createGain();o.connect(g);g.connect(c.destination);o.type='sine';o.frequency.setValueAtTime(f,c.currentTime);o.frequency.exponentialRampToValueAtTime(f*.5,c.currentTime+d);g.gain.setValueAtTime(v,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.start(c.currentTime);o.stop(c.currentTime+d);}catch(e){}}
+function malaChime(){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>chime(f,1.4,.45),i*220));}
+function tgtChime(){[784,1047,1319,1568,2093].forEach((f,i)=>setTimeout(()=>chime(f,1.8,.5),i*170));}
+
+// ══════════════════════════
+// MALA
+// ══════════════════════════
+function drawMala(){
+  const g=document.getElementById('beads');g.innerHTML='';
+  const n=108,r=95,cx=120,cy=120,br=7,cur=S.count%108;
+  for(let i=0;i<n;i++){
+    const a=(i/n)*2*Math.PI-Math.PI/2,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a);
+    const done=i<cur,isN=i===cur;
+    const c=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    c.setAttribute('cx',x);c.setAttribute('cy',y);c.setAttribute('r',isN?br+1.5:br);
+    c.setAttribute('fill',done||isN?'url(#bA)':'url(#bG)');c.setAttribute('opacity',done?'1':isN?'1':'.3');
+    if(isN)c.setAttribute('filter','url(#gl)');
+    g.appendChild(c);
+  }
+}
+
+// ══════════════════════════
+// JAP
+// ══════════════════════════
+function doJap(e){
+  if(e){const r=document.createElement('div');r.className='rip';r.style.left=e.clientX+'px';r.style.top=e.clientY+'px';document.body.appendChild(r);setTimeout(()=>r.remove(),520);}
+  S.count++;S.total++;
+  const t=td();S.hist[t]=(S.hist[t]||0)+1;
+  if(S.lastDate!==t){const y=new Date();y.setDate(y.getDate()-1);S.streak=(S.lastDate===y.toISOString().split('T')[0])?S.streak+1:1;S.lastDate=t;}
+  const tc=S.hist[t]||0;if(tc>S.bestDay)S.bestDay=tc;S.daysActive=Object.keys(S.hist).length;
+  if(S.sankalp)S.sankalp.done=S.total-S.sankalp.st;
+  if(S.count%108===0){if(S.soundMala)malaChime();if(S.soundSpeech)setTimeout(sayMala,600);else toast('🙏 एक माला पूर्ण! Jai Radhe!');}
+  else sayR(false);
+  if(S.count===S.target){setTimeout(()=>celebrate(S.target.toLocaleString()+' Jap Complete!','🌸 Jai Radhe! लक्ष्य पूर्ण!'),350);tgtChime();}
+  if(S.soundVibrate&&navigator.vibrate)navigator.vibrate(20);
+  save();ui();
+}
+function undo(){if(S.count<=0)return;S.count--;S.total=Math.max(0,S.total-1);const t=td();if(S.hist[t]){S.hist[t]--;if(S.hist[t]<=0)delete S.hist[t];}save();ui();}
+function resetSess(){if(!confirm('Reset session counter?'))return;S.count=0;save();ui();toast('🌸 Reset. Jai Radhe!');}
+
+// ══════════════════════════
+// UI
+// ══════════════════════════
+function ui(){
+  const t=td(),tc=S.hist[t]||0;
+  // Jap
+  document.getElementById('jnum').textContent=S.count;
+  document.getElementById('mcnt').textContent=Math.floor(S.count/108);
+  document.getElementById('bcnt').textContent=(S.count%108)+1;
+  document.getElementById('tdcnt').textContent=tc;
+  document.getElementById('tpd').textContent=S.count;
+  document.getElementById('tpg').textContent=S.target;
+  document.getElementById('tpf').style.width=Math.min(100,(S.count/S.target)*100)+'%';
+  // Sadhana
+  document.getElementById('dgd').textContent=tc;
+  document.getElementById('dgg').textContent=S.dailyGoal;
+  document.getElementById('dgb').style.width=Math.min(100,(tc/S.dailyGoal)*100)+'%';
+  document.getElementById('bigStrk').textContent=S.streak;
+  document.getElementById('snum').textContent=S.streak;
+  // Level
+  const lv=curLv();
+  document.getElementById('lvBadge').textContent=lv.i+' '+lv.n;
+  // Stats
+  document.getElementById('stT').textContent=S.total.toLocaleString('en-IN');
+  document.getElementById('stM').textContent=Math.floor(S.total/108).toLocaleString('en-IN');
+  document.getElementById('stD').textContent=S.daysActive;
+  document.getElementById('stB').textContent=S.bestDay.toLocaleString('en-IN');
+  // Profile
+  updProfile();
+  // Share
+  document.getElementById('scC').textContent=tc.toLocaleString('en-IN');
+  document.getElementById('scS').textContent='Jap on '+new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+  document.getElementById('scSt').textContent='🔥 '+S.streak+' day streak';
+  // Streak banner
+  updBanner();
+  // Milestones
+  updMs();
+  // Mala
+  drawMala();
+  // Sankalp
+  updSk();
+  // Heatmap
+  renderHmap();
+  // Calendar
+  renderCal();
+  // Festivals
+  filtFest('all',document.querySelector('.stabs .stab'));
+  // Levels grid
+  renderLvs();
+  // Chart (in more)
+  // Notif
+  updNotifUI();
+}
+
+// ══════════════════════════
+// STREAK BANNER
+// ══════════════════════════
+function updBanner(){
+  const t=td(),did=(S.hist[t]||0)>0;
+  const b=document.getElementById('sbanner'),f=document.getElementById('sfl'),n=document.getElementById('snum'),s=document.getElementById('ssub'),w=document.getElementById('swarn');
+  if(S.streak===0){b.className='sbanner dead';f.className='sfl g';n.className='snum g';s.textContent='No streak — start today!';w.style.display='none';}
+  else if(!did){b.className='sbanner';f.className='sfl';n.className='snum';s.textContent=S.streak+' day streak — keep it alive!';w.style.display='block';}
+  else{b.className='sbanner';f.className='sfl';n.className='snum';s.textContent=S.streak+' day streak 🌸 Jai Radhe!';w.style.display='none';}
+}
+
+// ══════════════════════════
+// MILESTONES
+// ══════════════════════════
+const MS=[{d:1,i:'🌱',l:'Day 1'},{d:3,i:'🌸',l:'3 Days'},{d:7,i:'🌻',l:'Week'},{d:11,i:'🔥',l:'11 Days'},{d:21,i:'⭐',l:'21 Days'},{d:27,i:'🌙',l:'27 Days'},{d:40,i:'💎',l:'40 Days'},{d:108,i:'🕉️',l:'108 Days'}];
+function updMs(){document.getElementById('msRow').innerHTML=MS.map(m=>`<div class="ms${S.streak>=m.d?' ok':''}"><i>${m.i}</i>${m.l}</div>`).join('');}
+
+// ══════════════════════════
+// HEATMAP (3 months)
+// ══════════════════════════
+function renderHmap(){
+  const el=document.getElementById('hmap');el.innerHTML='';
+  const now=new Date(),t=td();
+  const end=new Date(now);
+  const start=new Date(now);start.setDate(start.getDate()-83); // ~3 months
+  while(start.getDay()!==0)start.setDate(start.getDate()-1);
+  const vals=Object.values(S.hist);const mx=Math.max(...vals,1);
+  const lvl=c=>{if(!c)return 0;const p=c/mx;return p<.15?1:p<.4?2:p<.7?3:4;};
+
+  // day labels col
+  const dlCol=document.createElement('div');dlCol.className='hmap-col';dlCol.style.marginTop='12px';
+  ['','M','','W','','F',''].forEach(d=>{const l=document.createElement('div');l.className='hmap-dlbl';l.textContent=d;dlCol.appendChild(l);});
+  el.appendChild(dlCol);
+
+  let cur=new Date(start),lastMo=-1;
+  while(cur<=end){
+    const wk=document.createElement('div');wk.className='hmap-week';
+    const ml=document.createElement('div');ml.className='hmap-mlbl';
+    if(cur.getMonth()!==lastMo){ml.textContent=cur.toLocaleString('default',{month:'short'});lastMo=cur.getMonth();}
+    wk.appendChild(ml);
+    for(let d=0;d<7;d++){
+      if(cur>end)break;
+      const ds=cur.toISOString().split('T')[0];const c=S.hist[ds]||0;const l=lvl(c);
+      const cell=document.createElement('div');
+      cell.className='hcell'+(l?' l'+l:'')+(ds===t?' tod':'');
+      cell.title=ds+(c?' · '+c+' jap':'');
+      wk.appendChild(cell);cur.setDate(cur.getDate()+1);
+    }
+    el.appendChild(wk);
+  }
+  const total=vals.reduce((a,b)=>a+b,0);const active=vals.filter(v=>v>0).length;
+  document.getElementById('hmapStats').innerHTML=`<span class="hmap-stat"><b>${total.toLocaleString('en-IN')}</b> total jap</span><span class="hmap-stat"><b>${active}</b> active days</span><span class="hmap-stat">Best: <b>${mx.toLocaleString('en-IN')}</b></span>`;
+  setTimeout(()=>{const sc=document.getElementById('hmapScroll');if(sc)sc.scrollLeft=sc.scrollWidth;},80);
+}
+
+// ══════════════════════════
+// CALENDAR
+// ══════════════════════════
+function prevMon(){calMon--;if(calMon<0){calMon=11;calYr--;}renderCal();}
+function nextMon(){calMon++;if(calMon>11){calMon=0;calYr++;}renderCal();}
+function renderCal(){
+  const now=new Date(),yr=calYr,mo=calMon,todayD=now.getDate(),isThisMo=(yr===now.getFullYear()&&mo===now.getMonth());
+  const mStr=new Date(yr,mo,1).toLocaleString('default',{month:'long'});
+  document.getElementById('calTitle').textContent=mStr+' '+yr;
+  const grid=document.getElementById('calGrid');grid.innerHTML='';
+  ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d=>{const c=document.createElement('div');c.className='cal-hd';c.textContent=d;grid.appendChild(c);});
+  const first=new Date(yr,mo,1).getDay(),dims=new Date(yr,mo+1,0).getDate();
+  for(let i=0;i<first;i++)grid.appendChild(document.createElement('div'));
+  const moKey=String(yr)+'-'+String(mo+1).padStart(2,'0');
+  const moFests={};
+  FESTS.forEach(f=>{if(f.d.startsWith(moKey+'-')){const day=parseInt(f.d.split('-')[2]);(moFests[day]=moFests[day]||[]).push(f);}});
+  for(let d=1;d<=dims;d++){
+    const ds=yr+'-'+String(mo+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    const jc=S.hist[ds]||0;const fts=moFests[d];
+    const cell=document.createElement('div');
+    const isEkad=fts&&fts.some(f=>f.t==='ekad');
+    const isMajor=fts&&fts.some(f=>f.t==='major');
+    let cls='cal-d';
+    if(isEkad)cls+=' ekad';
+    else if(isMajor)cls+=' fest';
+    else if(jc>0&&jc>=S.dailyGoal)cls+=' goal-done';
+    else if(jc>0)cls+=' has';
+    if(d===todayD&&isThisMo)cls+=' today';
+    cell.className=cls;cell.textContent=d;
+    if(jc>0){const dot=document.createElement('div');dot.className='cdot';dot.style.background=isEkad?'#CC99FF':'var(--g)';cell.appendChild(dot);}
+    if(fts&&!jc){const dot2=document.createElement('div');dot2.className='cdot';dot2.style.background=isEkad?'rgba(150,80,255,.6)':'var(--sf)';cell.appendChild(dot2);}
+    grid.appendChild(cell);
+  }
+}
+
+// ══════════════════════════
+// FESTIVAL LIST
+// ══════════════════════════
+let _ff='all';
+function filtFest(f,btn){
+  _ff=f;
+  document.querySelectorAll('#p-cal .stabs .stab').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  renderFestList();
+}
+function renderFestList(){
+  const el=document.getElementById('festList');if(!el)return;
+  const now=new Date();now.setHours(0,0,0,0);
+  let list=[...FESTS].sort((a,b)=>a.d.localeCompare(b.d));
+  if(_ff==='ekad')list=list.filter(f=>f.t==='ekad');
+  else if(_ff==='major')list=list.filter(f=>f.t==='major');
+  else if(_ff==='up')list=list.filter(f=>new Date(f.d)>=now);
+  const up=list.filter(f=>new Date(f.d)>=now);
+  const past=list.filter(f=>new Date(f.d)<now).slice(-3).reverse();
+  const show=[...up.slice(0,25),...past];
+  el.innerHTML=show.map(f=>{
+    const fd=new Date(f.d),diff=Math.round((fd-now)/864e5);
+    const day=fd.getDate(),mon=fd.toLocaleString('default',{month:'short'}).toUpperCase();
+    let tag='';
+    if(diff===0)tag=`<span class="tag tag-now">Today!</span>`;
+    else if(diff>0&&diff<=10)tag=`<span class="tag tag-soon">In ${diff}d</span>`;
+    else if(f.t==='ekad'&&diff>0)tag=`<span class="tag tag-ek">एकादशी</span>`;
+    else if(diff<0)tag=`<span class="tag-past">${Math.abs(diff)}d ago</span>`;
+    return`<div class="fi">
+      <div class="fi-db"><div class="fi-day">${day}</div><div class="fi-mon">${mon} ${fd.getFullYear()}</div></div>
+      <div class="fi-info"><div class="fi-n">${f.n}</div><div class="fi-hn">${f.h}</div><div class="fi-s">${f.s}</div></div>
+      ${tag}<div class="fi-icon">${f.i}</div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════
+// GOAL & TARGET
+// ══════════════════════════
+function setGoal(){const v=parseInt(document.getElementById('goalInp').value);if(!v||v<1)return;S.dailyGoal=v;save();ui();toast('🎯 Goal: '+v+' jap/day');}
+function setTgt(n,btn){S.target=n;document.querySelectorAll('#tcps .cp').forEach(b=>b.classList.remove('on'));if(btn)btn.classList.add('on');document.getElementById('custcp').textContent='✏️';save();ui();}
+function askTgt(){const v=prompt('Custom target:');const n=parseInt(v);if(!n||n<1){toast('❌ Invalid');return;}document.querySelectorAll('#tcps .cp').forEach(b=>b.classList.remove('on'));document.getElementById('custcp').classList.add('on');document.getElementById('custcp').textContent='✏️'+n;S.target=n;save();ui();toast('🎯 Target: '+n);}
+
+// ══════════════════════════
+// SANKALP
+// ══════════════════════════
+function startSk(){
+  const tot=parseInt(document.getElementById('skTI').value),days=parseInt(document.getElementById('skDI').value),name=document.getElementById('skNI').value.trim()||'Jap Sankalp';
+  if(!tot||tot<1||!days||days<1){toast('❌ Enter valid numbers');return;}
+  S.sankalp={tot,days,name,start:td(),st:S.total,done:0};save();updSk();toast('🙏 Sankalp लिया! Jai Radhe!');
+}
+function clearSk(){if(!confirm('Cancel Sankalp?'))return;S.sankalp=null;save();updSk();toast('Sankalp cleared');}
+function updSk(){
+  if(!S.sankalp){document.getElementById('skActive').style.display='none';document.getElementById('skNew').style.display='block';return;}
+  const sk=S.sankalp,end=new Date(sk.start);end.setDate(end.getDate()+sk.days);
+  const dl=Math.max(0,Math.round((end-new Date())/864e5));
+  const done=S.total-sk.st,pct=Math.min(100,(done/sk.tot)*100);
+  document.getElementById('skActive').style.display='block';document.getElementById('skNew').style.display='none';
+  document.getElementById('skDn').textContent=done.toLocaleString('en-IN');
+  document.getElementById('skTt').textContent=sk.tot.toLocaleString('en-IN');
+  document.getElementById('skNm').textContent=sk.name;
+  document.getElementById('skDy').textContent=dl>0?dl+' days remaining':'Sankalp time complete!';
+  document.getElementById('skPc').textContent=pct.toFixed(1)+'%';
+  document.getElementById('skBr').style.width=pct+'%';
+  const pd=dl>0?Math.ceil((sk.tot-done)/dl):0;
+  document.getElementById('skPD').textContent=dl>0?`Need ${pd.toLocaleString('en-IN')} jap/day for "${sk.name}"`:' ';
+}
+
+// ══════════════════════════
+// TIMER
+// ══════════════════════════
+let tD=600,tR=600,tRn=false,tI=null;
+function setTmr(m,btn){document.querySelectorAll('.pre').forEach(b=>b.classList.remove('on'));if(btn)btn.classList.add('on');tD=m*60;tR=tD;if(tRn){clearInterval(tI);tRn=false;document.getElementById('playBtn').textContent='▶';}updT();}
+function togTmr(){const b=document.getElementById('playBtn');if(tRn){clearInterval(tI);tRn=false;b.textContent='▶';}else{if(tR<=0)tR=tD;tRn=true;b.textContent='⏸';tI=setInterval(()=>{tR--;updT();if(tR<=0){clearInterval(tI);tRn=false;b.textContent='▶';malaChime();if(syn){const u=new SpeechSynthesisUtterance('सत्र पूर्ण। जय राधे!');u.lang='hi-IN';if(hv)u.voice=hv;u.volume=1;u.rate=.75;syn.speak(u);}toast('🙏 Session complete! Jai Radhe!');if(navigator.vibrate)navigator.vibrate([200,100,200]);}},1000);}}
+function rstTmr(){clearInterval(tI);tRn=false;tR=tD;document.getElementById('playBtn').textContent='▶';updT();}
+function updT(){const m=Math.floor(tR/60),s=tR%60;document.getElementById('tDisp').textContent=m+':'+String(s).padStart(2,'0');document.getElementById('tCirc').style.strokeDashoffset=(2*Math.PI*65)*(tD?1-tR/tD:0);}
+
+// ══════════════════════════
+// NOTIF
+// ══════════════════════════
+function reqNotif(){if(!('Notification' in window)){toast('❌ Not supported');return;}Notification.requestPermission().then(p=>{updNotifUI();if(p==='granted'){toast('✅ Notifications enabled!');schedRemind();}else toast('❌ Denied');});}
+function updNotifUI(){const el=document.getElementById('notifStat');if(!el)return;const p='Notification' in window?Notification.permission:'no';if(p==='granted'){el.className='nb-st ok';el.textContent='✅ Enabled';}else if(p==='denied'){el.className='nb-st no';el.textContent='❌ Blocked — check browser settings';}else{el.className='nb-st may';el.textContent='⚠️ Not enabled yet';}}
+function testNotif(){if(Notification.permission!=='granted'){reqNotif();return;}new Notification('🔥 Radha Jap Reminder',{body:'राधे राधे! Streak: '+S.streak+' days 🌸'});toast('🔔 Test sent!');}
+function schedRemind(){if(Notification.permission!=='granted'){reqNotif();return;}clearInterval(window._ri);window._ri=setInterval(()=>{const h=new Date().getHours(),mn=new Date().getMinutes(),done=(S.hist[td()]||0)>0;if(!done&&mn===0&&(h===18||h===20))new Notification('🔥 Jap Reminder',{body:S.streak+' day streak at risk! Do jap now 🌸',requireInteraction:h===20});},60000);toast('⏰ Reminders set 6PM & 8PM');}
+
+// ══════════════════════════
+// SHARE
+// ══════════════════════════
+function shareText(){const t=td(),c=S.hist[t]||0;return`🌸 राधे राधे 🌸\n\nToday: ${c.toLocaleString('en-IN')} jap\n🔥 Streak: ${S.streak} days\n📿 Malas: ${Math.floor(S.total/108).toLocaleString('en-IN')}\n⭐ Level: ${curLv().n}\n\nJay Shri Radhe! 🙏`;}
+function shareNow(){const t=shareText();if(navigator.share)navigator.share({title:'Radha Jap',text:t}).catch(()=>{});else copyShare();}
+function copyShare(){navigator.clipboard.writeText(shareText()).then(()=>toast('📋 Copied!')).catch(()=>toast('Copy manually'));}
+
+// ══════════════════════════
+// DIARY
+// ══════════════════════════
+function saveDiary(){const tx=document.getElementById('diary').value.trim();if(!tx)return;try{localStorage.setItem('diary_'+td(),tx);}catch(e){}toast('📖 Diary saved!');}
+function loadDiary(){try{const d=localStorage.getItem('diary_'+td());if(d)document.getElementById('diary').value=d;else toast('No diary for today');}catch(e){}}
+
+// ══════════════════════════
+// LEVELS GRID
+// ══════════════════════════
+function renderLvs(){
+  const el=document.getElementById('lvGrid');if(!el)return;
+  const cur=curLv();
+  el.innerHTML=LVS.map(l=>{
+    const isc=l.n===cur.n,done=S.total>=l.r&&!isc;
+    return`<div style="border-radius:9px;padding:9px 4px;border:1px solid ${isc?'var(--g)':done?'rgba(255,107,0,.25)':'rgba(212,160,23,.1)'};background:${isc?'rgba(212,160,23,.09)':done?'rgba(255,107,0,.07)':'rgba(0,0,0,.2)'};text-align:center;${isc?'box-shadow:0 0 9px rgba(212,160,23,.18)':''}">
+      <div style="font-size:22px">${l.i}</div>
+      <div style="font-family:'Cinzel Decorative',cursive;font-size:8px;color:${isc?'var(--g2)':'rgba(255,205,120,.4)'};letter-spacing:.5px;margin-top:2px">${l.n}</div>
+      <div style="font-size:7px;color:rgba(255,200,120,.3);margin-top:1px">${l.l}</div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════
+// PROFILE
+// ══════════════════════════
+function updProfile(){
+  const u=S.user||{name:'Guest',phone:'',since:td()};
+  const init=u.name?u.name[0].toUpperCase():'?';
+  document.getElementById('profAvatar').textContent=init;
+  document.getElementById('profName').textContent=u.name||'Guest';
+  document.getElementById('profPhone').textContent=u.phone||'No phone linked';
+  document.getElementById('profSince').textContent=u.since?'Bhakt since '+u.since:'';
+  document.getElementById('pTotal').textContent=S.total.toLocaleString('en-IN');
+  document.getElementById('pStreak').textContent=S.streak;
+  document.getElementById('pMalas').textContent=Math.floor(S.total/108).toLocaleString('en-IN');
+  document.getElementById('cloudSub').textContent=u.phone?
+    'Your data is linked to '+u.phone+'. Sign in on any device to restore.':
+    'Sign in with your phone to enable cloud backup across devices.';
+}
+
+// ══════════════════════════
+// CELEBRATE
+// ══════════════════════════
+function celebrate(title,sub){const ov=document.createElement('div');ov.className='celebrate';ov.innerHTML=`<div style="font-size:52px;filter:drop-shadow(0 0 16px rgba(255,200,0,.8))">🌸</div><h2>${title}</h2><p style="font-size:14px;color:var(--sf2)">${sub}</p><button class="btn pri" style="margin-top:10px;padding:10px 26px" onclick="this.parentElement.remove()">🙏 Jai Radhe!</button>`;document.body.appendChild(ov);}
+
+// ══════════════════════════
+// THEME
+// ══════════════════════════
+function setTheme(t,el){S.theme=t;save();document.body.className=t;document.querySelectorAll('.th-c').forEach(c=>c.classList.remove('on'));if(el)el.classList.add('on');toast('🎨 Theme changed!');}
+
+// ══════════════════════════
+// SOUND TOGGLES
+// ══════════════════════════
+function togS(k,id){S[k]=!S[k];const el=document.getElementById(id);S[k]?el.classList.add('on'):el.classList.remove('on');save();}
+
+// ══════════════════════════
+// MORE SUBS
+// ══════════════════════════
+function showMoreSub(name){
+  ['timer','aarti','share','settings'].forEach(n=>{
+    const el=document.getElementById('sub-'+n);if(el)el.style.display=n===name?'block':'none';
+  });
+  if(name==='aarti'&&!document.getElementById('aText').innerHTML)showTxt('ra',document.querySelector('#sub-aarti .stab'));
+  if(name==='share'){document.getElementById('scC').textContent=(S.hist[td()]||0).toLocaleString('en-IN');document.getElementById('scSt').textContent='🔥 '+S.streak+' day streak';}
+}
+
+// ══════════════════════════
+// AARTI
+// ══════════════════════════
+const TXTS={
+  ra:{t:'🌸 श्री राधा आरती',c:`<p><span class="vn">॥ आरती ॥</span>आरती कुंज बिहारी की,<br>श्री गिरिधर कृष्ण मुरारी की।</p><p>गले में बैजंती माला,<br>बजावत मुरली मनोहर वाला।</p><p><span class="vn">॥ राधे राधे ॥</span>कनकमय मोर मुकुट बिलसे,<br>देवता दरसन को तरसे।</p><p>राधा रानी की जय जय बोलो,<br>मन को उनके चरणों में खोलो।</p><p style="color:var(--g);font-family:'Cinzel Decorative',cursive;font-size:12px;text-align:center;margin-top:10px">जय राधे जय राधे 🌸</p>`},
+  ka:{t:'🦚 कृष्ण आरती',c:`<p>ओम जय जगदीश हरे,<br>स्वामी जय जगदीश हरे।</p><p>भक्त जनों के संकट,<br>क्षण में दूर करे।</p><p>जो ध्यावे फल पावे,<br>दुख बिनसे मन का।</p><p>सुख संपति घर आवे,<br>कष्ट मिटे तन का।</p><p>तुम पूरण परमात्मा,<br>तुम अंतरयामी।</p><p style="color:var(--g);font-family:'Cinzel Decorative',cursive;font-size:12px;text-align:center;margin-top:10px">जय श्री कृष्ण 🦚</p>`},
+  hc:{t:'🚩 हनुमान चालीसा',c:`<p><span class="vn">॥ दोहा ॥</span>श्री गुरु चरण सरोज रज, निज मनु मुकुरु सुधारि।<br>बरनउँ रघुबर बिमल जसु, जो दायकु फल चारि॥</p><p>बुद्धिहीन तनु जानिके, सुमिरौं पवन कुमार।<br>बल बुद्धि विद्या देहु मोहिं, हरहु कलेश विकार॥</p><p><span class="vn">॥ चौपाई ॥</span>जय हनुमान ज्ञान गुण सागर।<br>जय कपीस तिहुँ लोक उजागर॥</p><p>राम दूत अतुलित बल धामा।<br>अंजनि पुत्र पवनसुत नामा॥</p><p>महावीर विक्रम बजरंगी।<br>कुमति निवार सुमति के संगी॥</p><p>लाय सजीवन लखन जियाये।<br>श्री रघुवीर हरषि उर लाये॥</p><p><span class="vn">॥ दोहा ॥</span>पवनतनय संकट हरन, मंगल मूरति रूप।<br>राम लखन सीता सहित, हृदय बसहु सुर भूप॥</p><p style="color:var(--g);font-family:'Cinzel Decorative',cursive;font-size:12px;text-align:center;margin-top:10px">॥ जय हनुमान 🚩 ॥</p>`},
+  rs:{t:'🌺 राधा स्तुति',c:`<p>राधे वृन्दावनेश्वरि, राधे वृन्दावनेश्वरि।<br>राधे राधे राधे राधे, राधे वृन्दावनेश्वरि॥</p><p>राधा नाम सुधा रस पीजे,<br>जीवन को सफल कर लीजे।</p><p>वृन्दावन की रानी राधा,<br>कृष्ण के प्राणों की आधा।</p><p>राधे बरसाने वाली,<br>श्याम की दिलवाली।</p><p style="color:var(--g);font-family:'Cinzel Decorative',cursive;font-size:12px;text-align:center;margin-top:10px">जय राधे जय राधे श्याम 🌺</p>`}
+};
+function showTxt(k,btn){document.querySelectorAll('#sub-aarti .stab').forEach(b=>b.classList.remove('on'));if(btn)btn.classList.add('on');const t=TXTS[k];document.getElementById('aText').innerHTML=`<h3>${t.t}</h3>${t.c}`;}
+
+// ══════════════════════════
+// NAV
+// ══════════════════════════
+function goPnl(name,btn){
+  document.querySelectorAll('.pnl').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.bni').forEach(b=>b.classList.remove('on'));
+  document.getElementById('p-'+name).classList.add('on');if(btn)btn.classList.add('on');
+  document.getElementById('panels').scrollTop=0;
+  if(name==='cal'){renderHmap();renderCal();renderFestList();}
+  if(name==='more'){['timer','aarti','share','settings'].forEach(n=>{const el=document.getElementById('sub-'+n);if(el)el.style.display='none';});}
+}
+
+// ══════════════════════════
+// PWA
+// ══════════════════════════
+let dpEvt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dpEvt=e;});
+function installPWA(){if(dpEvt){dpEvt.prompt();dpEvt.userChoice.then(()=>dpEvt=null);}else toast('🍎 iPhone: Share → Add to Home Screen');}
+const mf={name:'Radha Jap Counter',short_name:'Radhe Jap',start_url:'.',display:'standalone',background_color:'#0A0200',theme_color:'#1a0400',icons:[{src:'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Ctext y=".9em" font-size="90"%3E🌸%3C/text%3E%3C/svg%3E',sizes:'512x512',type:'image/svg+xml'}]};
+try{const mb=new Blob([JSON.stringify(mf)],{type:'application/json'});document.getElementById('mfst').href=URL.createObjectURL(mb);}catch(e){}
+
+// ══════════════════════════
+// PARTICLES
+// ══════════════════════════
+function mkPtc(){const c=document.getElementById('ptc');for(let i=0;i<12;i++){const p=document.createElement('div');p.className='pt';p.style.left=Math.random()*100+'%';const sz=(Math.random()*3+2)+'px';p.style.width=p.style.height=sz;const d=7+Math.random()*10;p.style.animationDuration=d+'s';p.style.animationDelay=Math.random()*d+'s';p.style.background=Math.random()>.5?'#D4A017':'#FF8C42';c.appendChild(p);}}
+
+// ══════════════════════════
+// TOAST
+// ══════════════════════════
+let _tt;
+function toast(m){const el=document.getElementById('toast');el.textContent=m;el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2500);}
+
+// ══════════════════════════
+// RESET ALL
+// ══════════════════════════
+function resetAll(){if(!confirm('Delete ALL data? This cannot be undone!'))return;const u=S.user;localStorage.removeItem(SK);S={count:0,total:0,dailyGoal:108,target:108,soundSpeech:true,soundMala:true,soundVibrate:true,streak:0,lastDate:null,hist:{},bestDay:0,daysActive:0,voiceVol:1,voiceRate:.8,voicePitch:1.2,sankalp:null,theme:'',user:u};save();ui();toast('🗑️ Data cleared');}
+
+// ══════════════════════════
+// INIT
+// ══════════════════════════
+window.addEventListener('load',()=>{
+  load();mkPtc();
+  if(S.theme)document.body.className=S.theme;
+  // If already logged in, go to splash
+  if(S.user){document.getElementById('s-login').classList.remove('active');showSplash();}
+  // Restore toggles
+  if(!S.soundSpeech)document.getElementById('tSp').classList.remove('on');
+  if(!S.soundMala)document.getElementById('tMl').classList.remove('on');
+  if(!S.soundVibrate)document.getElementById('tVb').classList.remove('on');
+  // Sliders
+  document.getElementById('volS').value=S.voiceVol||1;
+  document.getElementById('rateS').value=S.voiceRate||.8;
+  document.getElementById('pitchS').value=S.voicePitch||1.2;
+  // Target chips
+  const pres=[108,251,501,1008,1200,5000];
+  const cps=document.querySelectorAll('#tcps .cp');
+  cps.forEach(c=>c.classList.remove('on'));
+  const idx=pres.indexOf(S.target);
+  if(idx>=0)cps[idx].classList.add('on');
+  else{document.getElementById('custcp').classList.add('on');document.getElementById('custcp').textContent='✏️'+S.target;}
+  // Theme
+  const themes=['','vr','lt','sk'];
+  document.querySelectorAll('.th-c').forEach((c,i)=>c.classList.toggle('on',themes[i]===S.theme));
+  // Timer
+  updT();updNotifUI();
+  if('Notification' in window&&Notification.permission==='granted')schedRemind();
+});
+</script>
+</body>
+</html>
