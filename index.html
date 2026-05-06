@@ -8,7 +8,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Radhe Jap">
-<link rel="manifest" id="mfst">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
 <title>🌸 Radha Jap</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -1382,10 +1384,16 @@ function goPnl(name,btn){
 // PWA
 // ══════════════════════════
 let dpEvt=null;
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dpEvt=e;});
-function installPWA(){if(dpEvt){dpEvt.prompt();dpEvt.userChoice.then(()=>dpEvt=null);}else toast('🍎 iPhone: Share → Add to Home Screen');}
-const mf={name:'Radha Jap Counter',short_name:'Radhe Jap',start_url:'.',display:'standalone',background_color:'#0A0200',theme_color:'#1a0400',icons:[{src:'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Ctext y=".9em" font-size="90"%3E🌸%3C/text%3E%3C/svg%3E',sizes:'512x512',type:'image/svg+xml'}]};
-try{const mb=new Blob([JSON.stringify(mf)],{type:'application/json'});document.getElementById('mfst').href=URL.createObjectURL(mb);}catch(e){}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dpEvt=e;document.getElementById('instBtn').style.display='block';});
+function installPWA(){if(dpEvt){dpEvt.prompt();dpEvt.userChoice.then(r=>{if(r.outcome==='accepted')toast('🎉 App installed! Open from home screen');dpEvt=null;});}else toast('🍎 iPhone: Share → Add to Home Screen');}
+// Register Service Worker
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg=>console.log('✅ SW registered:',reg.scope))
+      .catch(err=>console.error('SW error:',err));
+  });
+}
 
 // ══════════════════════════
 // PARTICLES
